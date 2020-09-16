@@ -10,6 +10,7 @@ We create a Dockerfile based on Ubuntu layout and build the image
 
 ```
 echo "FROM ubuntu:latest" > ./Dockerfile
+echo "RUN apt-get install -y stress " >> ./Dockerfile
 echo "CMD /usr/bin/stress -c 1 --timeout 60s" >> ./Dockerfile
 docker build -t my_stresser .
 ```{{execute}}
