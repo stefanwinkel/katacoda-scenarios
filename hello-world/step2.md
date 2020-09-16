@@ -19,7 +19,7 @@ The first container will be allowed to have 75% of the share while the second is
 docker run -d --name c768 --cpuset-cpus 0 --cpu-shares 768 benhall/stress
 docker run -d --name c256 --cpuset-cpus 0 --cpu-shares 256 benhall/stress
 docker stats --no-stream
-docker rm -f c768
+docker rm -f c768 c256
 ```{{execute}}
 
 ## Important

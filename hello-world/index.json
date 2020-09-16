@@ -1,21 +1,33 @@
 {
-  "title": "Welcome to 401 Container Security Defense ",
-  "description": "Our First Scenario",
+  "title": "MyTest1 ",
+  "description": "MyTest1",
   "difficulty": "beginner",
   "time": "20 minutes",
   "details": {
-    "steps": [{
-      "title": "Step 1 - Define Memory Limits",
+    "steps": [
+
+    {
+      "title": "Step 1 - Limit Image Memory Usage",
       "text": "step1.md"
     },
     {
-        "title":"Step 2 - Scenario Syntax",
+        "title":"Step 2 - Limit CPU Processing Time",
         "text": "step2.md"
     },
     {
-        "title":"Step 3 - Scenario Syntax",
-        "text": "mystep3.md"
+        "title":"Step 3 - Remap Users with User and Network NameSpace",
+        "text": "step3.md"
+    },
+    {
+        "title":"Step 4 - Use of the PID NameSpace",
+        "text": "step4.md"
+    },
+    {
+        "title":"Step 5 - Share Namespaces",
+        "text": "step5.md"
     }
+
+
     ],
     "intro": {
       "text": "intro.md",
