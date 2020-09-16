@@ -13,7 +13,7 @@
     {
         "title":"Step 2 - Limit CPU Processing Time",
         "text": "step2.md",
-        "code": "clear.sh"
+        "code": "build_stresser.sh"
     },
     {
         "title":"Step 3 - Remap Users with User and Network NameSpace",
