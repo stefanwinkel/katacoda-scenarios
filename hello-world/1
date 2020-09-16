@@ -1,0 +1,6 @@
+Untagged: my_stresser:latest
+Deleted: sha256:d0dc3f9dea5eb2c2d48dd1397b98816104d283fd6df56729253581e782a5c81b
+Deleted: sha256:23c105c630ab5f07e7c42e1f3eb10c714c40ffbab17cb1a9fe6bb3c98271e872
+Deleted: sha256:9cfa22fa1224929b4e561f32b16b7d4f9247646f5744d1188a3cd6f8cb3e7e2b
+Error: No such image: 2
+Error: No such image: /dev/null
