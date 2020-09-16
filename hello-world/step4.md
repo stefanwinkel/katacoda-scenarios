@@ -2,7 +2,7 @@
 
 ## Limit Image Memory Usage
 
-Lets build a simple Docker image that calls the Unix stress program for 30s
+Lets build a simple Docker image that calls the Unix stress program for 60s
 
 ## Create and build a Docker image
 
@@ -10,7 +10,7 @@ We create a Dockerfile based on Ubuntu layout and build the image
 
 ```
 echo "FROM ubuntu:latest" > ./Dockerfile
-echo "CMD /usr/bin/stress -c 4 --timeout 30s" >> ./Dockerfile
+echo "CMD /usr/bin/stress -c 1 --timeout 60s" >> ./Dockerfile
 docker build -t my_stresser .
 ```{{execute}}
 
@@ -25,6 +25,6 @@ docker stats --no-stream
 
 ## Verify
 As you can see from the docker stats output the container was limited to 100Mb
-Note: The container will end itself after 30seconds when the stress command terminates
+Note: The container will end itself after the stress command terminates (60s)
 
 
