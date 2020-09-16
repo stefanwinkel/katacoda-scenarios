@@ -5,17 +5,22 @@
 Lets build a simple Docker image that calls the Unix stress program for 30s
 
 ## Create and build a Docker image
+
+We create a Dockerfile based on Ubuntu layout and build the image
+
 ```
 echo "FROM ubuntu:latest" > ./Dockerfile
 echo "CMD /usr/bin/stress -c 4 --timeout 30s" >> ./Dockerfile
 docker build -t my_stresser .
 ```{{execute}}
 
-## Run the container with limited memory and verify runtime limit is set to 100mb
+## Execute the container and limit the memory
+
+We run the container with limited memory (--memory) and verify with docker-stats that the runtime limit is set to 100mb
 
 ```
-docker container run -d --cpuset-cpus 0 --memory 100m --name s100 my_stresser`{{execute}}
-docker stats --no-stream`{{execute}}
+docker container run -d --cpuset-cpus 0 --memory 100m --name s100 my_stresser
+docker stats --no-stream
 ```{{execute}}
 
 ## Verify
