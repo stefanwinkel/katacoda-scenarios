@@ -1,5 +1,5 @@
 {
-  "title": "Hello! World Scenario",
+  "title": "Welcome to 401 Container Security Defense ",
   "description": "Our First Scenario",
   "difficulty": "beginner",
   "time": "20 minutes",
@@ -27,7 +27,7 @@
   },
   "environment": {
     "uilayout": "terminal",
-    "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\r\nStart Kubernetes using `launch.sh`\u001b[m\r\n"
+    "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\r\nLoad Docker shortcuts by  `load_docker_cmds.sh`\u001b[m\r\n"
   },
   "backend": {
     "imageid": "docker"

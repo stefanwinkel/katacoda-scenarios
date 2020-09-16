@@ -1,82 +1,25 @@
-This is your first step.
+<img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
 
-## Task
+## Step 1/5 - Define Memory Limits
 
-This is an _example_ of creating a scenario and running a **command**
+Memory limits are one of the most basic restriction you can place on a container. They restrict the amount of memory that processes inside a container  can use. Control Groups a Linux kernel feature that controls how much resources (CPU, memory, filesystem, network, etc) a process can use.
 
-## Copy to Clipboard
-`echo 'Hello World'`{{execute}}
+1. By adding limits you can protect the system from potentially malicious users or applications aiming to perform Denial of Service (DoS) applications via resource exhaustion.
+2. You can deliver a guaranteed Quality of Service to applications by ensuring they have enough space available.
+3. It's also possible to help limit applications from memory leaks or other programming bugs by defining upper boundaries.
 
-`echo "Copy to Clipboard"`{{copy}}Results: echo "Copy to Clipboard
+You can put a limit in place by using the -m or --memory flag on the docker container run or docker container create commands. If the image reaches the upper threshold the image will be halted. Similar can be done for Swap memory
 
-## Copy multilines to clipboard
+`docker run -d --name alp100 --memory 100m alpine top`{{execute}}
 
-```
-echo "Line 1"
+The memory usage ad limits of containers can be identified via the docker stats command.
 
-echo "Line 2"
-
-echo "Line 3"
-```{{copy}}
-
-## Run in Terminal
-`echo "ls -al"`{{execute}}
-
-## Multline in Terminal
-```
-echo "Line 1"
-
-echo "Line 2"
-
-echo "Line 3"
-```{{execute}}
+`docker stats --no-stream`{{execute}}
 
 
-## Interrupt
-When the user has long running commands, such as top, it can be useful to ensure that this is stopped but the user runs the next command.
-`echo "Send Ctrl+C before running Terminal"`{{execute interrupt}}echo "Send Ctrl+C before running Terminal"
+## Important
+The most important thing to understand about memory limits is that they’re not reservations. They don’t guarantee that the specified amount of memory will be available. They’re only a protection from overconsumption.
 
-## Control Sequences
-Alongside the interrupt command above, certain Control Sequences can be sent.
-Given a long running command, like top. It can be stopped using +. This can be executed as a control sequence with the command ^C
-
-The markdown for this is:
-`^C`{{execute ctrl-seq}}
-
-The use of control sequences can be useful when teaching applications such as vim.
-The instructions can guide the user on how
-• Switch to insert mode by typing i
-
-• Once finished, press ESC (^ESC) to switch back to normal mode
-
-• To exit, type :q!
-
-In the markdown, you would include:
-`i`{{execute no-newline}}
-
-`^ESC`{{execute ctrl-seq}}
-
-`:q!`{{execute}}
-Notice the use of no-newline as a way to send a keystroke with a carriage return following it.
-
-## Keyboard Icons
-This can also be helped by using Keyboard symbols to show users to use
-+The Markdown is:
-<kbd>Ctrl</kbd>+<kbd>C</kbd>
-
-## Execute on different hosts
-When using the terminal-terminal layout and multiple  hosts within the cluster, you can have commands executed on which host  is required. This is used within our Kubernetes scenarios.
-
-`echo "Run in Terminal Host 1"`{{execute HOST1}}
-`echo "Run in Terminal Host 2"`{{execute HOST2}}
-echo "Run in Terminal Host 1"
-echo "Run in Terminal Host 2"
-
-## Execute in different Terminal windows
-When explaining complex systems, it can be useful to run commands in a  separate terminal window. This can be run automatically by including  the target Terminal number.  If the terminal is not open, it will launch and the command will be executed.
-
-`echo "Run in Terminal 3"`{{execute T3}}
-`echo "Open and Execute in Terminal 4"`{{execute T4}}
-
-echo "Run in Terminal 3"
-echo "Open and Execute in Terminal 4"
+## Considerations
+1. First, can the software you’re running operate under the proposed memory allowance?
+2. Second, can the system you’re running on support the allowance?
