@@ -13,10 +13,12 @@ Below is an example of starting a container with different shares. The --cpu-sha
 Assuming the total amount of memory is 1 Gb we can split it up 75 vs 25 % by specifing shares of resp 768 and 256 (sum=1024)
 
 If a container defines a share of 768, while another defines a share  of 256, the first container will have 75% share with the other having  25% of the available share total. These numbers are due to the weighting  approach for CPU sharing instead of a fixed capacity.
-Below the first container will be allowed to have 75% of the share. The second container will be limited to 25%.
 
-`docker run -d --name c768 --cpuset-cpus 0 --cpu-shares 768 benhall/stress`{{command}}
-`docker run -d --name c256 --cpuset-cpus 0 --cpu-shares 256 benhall/stress`{{command}}
+The first container will be allowed to have 75% of the share
+`docker run -d --name c768 --cpuset-cpus 0 --cpu-shares 768 benhall/stress`{{execute}}
+
+The second container will be limited to 25% of the share
+`docker run -d --name c256 --cpuset-cpus 0 --cpu-shares 256 benhall/stress`{{execute}}
 
 We can verify the memory limits allocation with the docker stats command:
 
