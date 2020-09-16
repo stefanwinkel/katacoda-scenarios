@@ -16,10 +16,10 @@ If a container defines a share of 768, while another defines a share  of 256, th
 
 The first container will be allowed to have 75% of the share while the second is limited to 25%
 ```
-docker run -d --name c768 --cpuset-cpus 0 --cpu-shares 768 benhall/stress
-docker run -d --name c256 --cpuset-cpus 0 --cpu-shares 256 benhall/stress
+docker run -d --name sc768 --cpuset-cpus 0 --cpu-shares 768 my_stresser
+docker run -d --name sc256 --cpuset-cpus 0 --cpu-shares 256 my_stresser
 docker stats --no-stream
-docker rm -f c768 c256
+docker rm -f sc768 sc256
 ```{{execute}}
 
 ## Important
