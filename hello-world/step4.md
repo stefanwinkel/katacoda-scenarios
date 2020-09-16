@@ -2,18 +2,18 @@
 
 ## Use of the PID  Namespace
 
-# Lets build a simple Docker Image that calls stress program for 30s
-# echo "RUN apt-get update && apt-get install -y stress " >> ./Dockerfile
+Lets build a simple Docker Image that calls stress program for 30s
+echo "RUN apt-get update && apt-get install -y stress " >> ./Dockerfile
 
 ```
 echo "FROM ubuntu:latest" > ./Dockerfile
 echo "CMD /usr/bin/stress -c 4 -t 30" >> ./Dockerfile
-docker build -t mystresser .
+docker build -t my_stresser .
 ```{{execute}}
 
 # Run the container and limit the memory to 100Mb
-`docker container run -d --cpuset-cpus 0 --name s100 stresser`{{execute}}
+`docker container run -d --cpuset-cpus 0 --name s100 my_stresser`{{execute}}
 
-# Verify tha 100Mb limit that was put on the runtime for the Container
+# Verify the container is running with a 100Mb Memory limit
 `docker stats --no-stream`{{execute}}
 
