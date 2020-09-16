@@ -1,10 +1,20 @@
-<img align="right" src="./assets/golang.png" width="300">
-These next steps provide an ideal place to start writing applications in Go to run on Kubernetes. Each step will take you from raw Go code to packaging it in a container, and then to running your contained application on Kubernetes.
+<img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
+In this scenario we will see how we can protect/hardening the Docker Runtime by using Cgroups and Namespaces to limit host resources. Each step will help you understand how to protect your containers better against potential malicious behaviour from adversaries.
 
 You will learn how:
 
-- Write a basic Rust application as a microservice
-- Package a Rust microservice in a container
-- Run a Rust microservice on Kubernetes
+- How to set memory limits on containers
+- How to limit/slice CPU usage
+- How to isolate and share network
+- How to map user/group IDs in use the PID Namespace
+- How to isolate and share Namespaces
 
-> [Rust](https://www.rust-lang.org/) is a multi-paradigm programming language focused on performance and safety, especially safe concurrency. Rust is syntactically similar to C++, and provides memory safety without using garbage collection. -[wikipedia on Rust programming language](https://en.wikipedia.org/wiki/Rust_(programming_language))
+This help by protecting against:
+
+- Resource starvation
+- Denial of Service (DoS) attacks
+- Privilege escalation
+- CryptoCurrency mining attacks
+
+> [Docker](https://www.docker.com) is multi-paradigm platform/tool designed to make it easier to create, deploy and run applications by running containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and deploy it as one package . -[opensource.com > resources > what-docker](https://opensource.com/resources/what-docker))
+
