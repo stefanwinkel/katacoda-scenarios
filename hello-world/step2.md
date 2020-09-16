@@ -20,7 +20,7 @@ docker run -d --name c768 --cpuset-cpus 0 --cpu-shares 768 benhall/stress
 docker run -d --name c256 --cpuset-cpus 0 --cpu-shares 256 benhall/stress
 docker stats --no-stream
 docker rm -f c768
-```
+```{{execute}}
 
 ## Important
 It's important to note that a process can have 100% of the share, no matter defined weight, if no other processes is running.
