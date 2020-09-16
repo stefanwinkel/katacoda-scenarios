@@ -5,7 +5,7 @@
   "time": "20 minutes",
   "details": {
     "steps": [{
-      "title": "Step 1 - Run Command",
+      "title": "Step 1 - Define Memory Limits",
       "text": "step1.md"
     },
     {
@@ -27,7 +27,7 @@
   },
   "environment": {
     "uilayout": "terminal",
-    "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\r\nLoad Docker shortcuts by  `load_docker_cmds.sh`\u001b[m\r\n"
+    "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\r\n"
   },
   "backend": {
     "imageid": "docker"

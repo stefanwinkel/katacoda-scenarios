@@ -1,7 +1,5 @@
 <img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
 
-## Step 1/5 - Define Memory Limits
-
 Memory limits are one of the most basic restriction you can place on a container. They restrict the amount of memory that processes inside a container  can use. Control Groups a Linux kernel feature that controls how much resources (CPU, memory, filesystem, network, etc) a process can use.
 
 1. By adding limits you can protect the system from potentially malicious users or applications aiming to perform Denial of Service (DoS) applications via resource exhaustion.
@@ -16,10 +14,12 @@ The memory usage ad limits of containers can be identified via the docker stats 
 
 `docker stats --no-stream`{{execute}}
 
-
 ## Important
 The most important thing to understand about memory limits is that they’re not reservations. They don’t guarantee that the specified amount of memory will be available. They’re only a protection from overconsumption.
 
 ## Considerations
-1. First, can the software you’re running operate under the proposed memory allowance?
-2. Second, can the system you’re running on support the allowance?
+1. Can the software you’re running operate under the proposed memory allowance?
+2. Can the system you’re running on support the allowance?
+
+## Advanced
+1. How does this apply to a Java Image with the JVM and parameters like maximum heap size (-Xmx) ?
