@@ -1,38 +1,47 @@
 {
-  "title": "Docker Defense 401 Control Groups",
-  "description": "Protect against DoS attacks",
-  "difficulty": "Beginner",
-  "time": "10",
+  "title": "Welcome to 401 Container Security Defense ",
+  "description": "Protecting the Docker Runtime environment",
+  "difficulty": "beginner",
+  "time": "20 minutes",
   "details": {
     "steps": [
-      {
-        "title": "Step 1",
-        "text": "step1.md"
-      },
-      {
-        "title": "Step 2",
+
+    {
+      "title": "Step 1 - Limit Image Memory Usage",
+      "text": "step1.md"
+    },
+    {
+        "title":"Step 2 - Limit CPU Processing Time",
         "text": "step2.md"
-      },
-      {
-        "title": "Step 3",
+    },
+    {
+        "title":"Step 3 - Remap Users with User and Network NameSpace",
         "text": "step3.md"
-      },
-      {
-        "title": "Step 4",
+    },
+    {
+        "title":"Step 4 - Use of the PID NameSpace",
         "text": "step4.md"
-      }
+    },
+    {
+        "title":"Step 5 - Share Namespaces",
+        "text": "step5.md"
+    }
+
+
     ],
     "intro": {
-      "text": "intro.md"
+      "text": "intro.md",
+      "credits": ""
     },
     "finish": {
       "text": "finish.md"
     }
   },
   "environment": {
-    "uilayout": "terminal"
+    "uilayout": "terminal",
+    "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\r\n"
   },
   "backend": {
-    "imageid": "ubuntu"
+    "imageid": "docker"
   }
 }
