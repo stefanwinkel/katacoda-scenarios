@@ -2,12 +2,18 @@
 
 ## Use of the PID  Namespace
 
-When containers are launched, a network interface is defined and  create. This gives the container a unique IP address and interface.
-`docker run -it alpine ip addr show` {{execute}}
+# Lets build a simple Docker Image that calls stress program for 30s
+# echo "RUN apt-get update && apt-get install -y stress " >> ./Dockerfile
 
-By changing the namespace to host, instead of the  container's network being isolated with its interface, the process will  have access to the host machines network interface.
-`docker run -it --net=host alpine ip addr show` {{execute}}
+```
+echo "FROM ubuntu:latest" > ./Dockerfile
+echo "CMD /usr/bin/stress -c 4 -t 30" >> ./Dockerfile
+docker build -t mystresser .
+```{{execute}}
 
-If the process listens on ports, they'll be listened on the host interface and mapped to the container.
+# Run the container and limit the memory to 100Mb
+`docker container run -d --cpuset-cpus 0 --name s100 stresser`{{execute}}
 
+# Verify tha 100Mb limit that was put on the runtime for the Container
+`docker stats --no-stream`{{execute}}
 
