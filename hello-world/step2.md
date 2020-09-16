@@ -15,6 +15,8 @@ Assuming the total amount of memory is 1 Gb we can split it up 75 vs 25 % by spe
 If a container defines a share of 768, while another defines a share  of 256, the first container will have 75% share with the other having  25% of the available share total. These numbers are due to the weighting  approach for CPU sharing instead of a fixed capacity.
 
 The first container will be allowed to have 75% of the share while the second is limited to 25%
+
+The my_stresser image should already have been build automatically when the shell in this step was initially launched. You can always rebuild from step1.
 ```
 docker run -d --name sc768 --cpuset-cpus 0 --cpu-shares 768 my_stresser
 docker run -d --name sc256 --cpuset-cpus 0 --cpu-shares 256 my_stresser
