@@ -1,15 +1,5 @@
 <img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
 
-## Use Network Namespace
-
-When containers are launched, a network interface is defined and  create. This gives the container a unique IP address and interface.
-`docker run -it alpine ip addr show` {{execute}}
-
-By changing the namespace to host, instead of the  container's network being isolated with its interface, the process will  have access to the host machines network interface.
-`docker run -it --net=host alpine ip addr show` {{execute}}
-
-If the process listens on ports, they'll be listened on the host interface and mapped to the container.
-
 
 ## Remapping Users with the USR Namespace
 
@@ -20,3 +10,19 @@ The best way to prevent privilege-escalation attacks from within a container is 
 For containers whose processes must run as the root user within the container, you can re-map this user to a less-privileged user on the Docker host.
 
 The mapped user is assigned a range of UIDs which function within the namespace as normal UIDs from 0 to 65536, but have no privileges on the host machine itself.
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/wMjHunoR0zQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+## Use Network Namespace
+
+When containers are launched, a network interface is defined and  create. This gives the container a unique IP address and interface.
+
+`docker run -it alpine ip addr show`{{execute}}
+
+By changing the namespace to host, instead of the  container's network being isolated with its interface, the process will  have access to the host machines network interface.
+
+`docker run -it --net=host alpine ip addr show`{{execute}}
+
+If the process listens on ports, they'll be listened on the host interface and mapped to the container.
+
