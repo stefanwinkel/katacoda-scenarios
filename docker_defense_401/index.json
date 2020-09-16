@@ -1,6 +1,6 @@
 {
-  "title": "Welcome to 401 Container Security Defense ",
-  "description": "Protecting the Docker Runtime environment",
+  "title": "MyTest1 ",
+  "description": "MyTest1",
   "difficulty": "beginner",
   "time": "20 minutes",
   "details": {
@@ -12,7 +12,8 @@
     },
     {
         "title":"Step 2 - Limit CPU Processing Time",
-        "text": "step2.md"
+        "text": "step2.md",
+        "code": "build_stresser.sh"
     },
     {
         "title":"Step 3 - Remap Users with User and Network NameSpace",
