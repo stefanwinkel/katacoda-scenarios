@@ -14,15 +14,13 @@ Assuming the total amount of memory is 1 Gb we can split it up 75 vs 25 % by spe
 
 If a container defines a share of 768, while another defines a share  of 256, the first container will have 75% share with the other having  25% of the available share total. These numbers are due to the weighting  approach for CPU sharing instead of a fixed capacity.
 
-The first container will be allowed to have 75% of the share
-`docker run -d --name c768 --cpuset-cpus 0 --cpu-shares 768 benhall/stress`{{execute}}
-
-The second container will be limited to 25% of the share
-`docker run -d --name c256 --cpuset-cpus 0 --cpu-shares 256 benhall/stress`{{execute}}
-
-We can verify the memory limits allocation with the docker stats command:
-
-`docker stats --no-stream`{{command}}
+The first container will be allowed to have 75% of the share while the second is limited to 25%
+```
+docker run -d --name c768 --cpuset-cpus 0 --cpu-shares 768 benhall/stress
+docker run -d --name c256 --cpuset-cpus 0 --cpu-shares 256 benhall/stress
+docker stats --no-stream
+docker rm -f c768
+```
 
 ## Important
 It's important to note that a process can have 100% of the share, no matter defined weight, if no other processes is running.
