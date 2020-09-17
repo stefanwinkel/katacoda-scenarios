@@ -1,5 +1,4 @@
-In many instances Docker containers are running with permissions set too wide, allowing for fairly easy exploitation
-Docker makes uses of Cgroups and Namespaces to set limits and constraint resources at runtime
+In many instances Docker containers are running with permissions set too wide, allowing for fairly easy exploitation through for Priv Escalation, DoS and resource exhaustion attacks often seen with CrypoCurrency attacks. To constrain and limit use of host resources, users can customize the Docker runtime by use of Cgroups and Namespaces Linux kernel features
 
 ## 401 Container Defense - Docker Runtime Protection Quiz
 
