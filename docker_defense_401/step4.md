@@ -28,6 +28,7 @@ exit
 
 By run unshare you can specify that you want a new PID namespace with the --pid  flag:
 
-`sudo unshare --pid sh`{{execute}}
+sudo unshare --pid sh
+whoami
 
-Why does the second time you run whoami fail ?
+Why does the second time you run the whoami the command fails ?
