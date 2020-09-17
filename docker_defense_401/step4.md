@@ -8,14 +8,26 @@ If you run the ps command inside a Docker container, you can see only the proces
 
 A ps reveals only the bash shell and the ps command being active
 
-`ps -eaf`{{execute}}
+```
+ps -eaf
+exit
+```{{execute}}
 
 This is achieved with the process ID namespace, which restricts the set of process IDs that are visible.
 
-By running unshare you can specify that you want a new PID namespace with the --pid  flag:
+By changing the Pid namespace allows a container to interact with processes beyond its normal scope.
 
+`docker run --rm -it --pid=host --name hello ubuntu`{{execute}}
+```
+ps -eaf
+exit
+```{{execute}}
+
+
+## Advanced
+
+By run unshare you can specify that you want a new PID namespace with the --pid  flag:
 
 `sudo unshare --pid sh`{{execute}}
 
-Now let's run `whoami`{{execute}}
-
+Why does the second time you run whoami fail ?
