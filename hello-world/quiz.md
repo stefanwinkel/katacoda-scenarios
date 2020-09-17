@@ -1,4 +1,5 @@
-Docker makes uses of CGroups and Namespaces to limit resources at runtime execution
+In many instances Docker containers are running with permissions set too wide, allowing for fairly easy exploitation
+Docker makes uses of Cgroups and Namespaces to set limits and constraint resources at runtime
 
 ## 401 Container Defense - Docker Runtime Protection Quiz
 
@@ -14,13 +15,16 @@ What is command flag to limit the amount of memory a container can use to  150 ?
 [ ] Use the --no_priv flag when starting the Docker Daemon
 [*] Remap UserID defined by the  USER namespace
 [ ] Set the --cpuset flag to 0
-[*] Run the container as root user
+[ ] Run the container as root
 
-Q4 is a single choice where users must select the correct answer.
+>>Q4: Protecting the Docker Runtime does not apply to Docker Image Developers but only to Operators and other personel running Containers <<
+(*) Incorrect
+( ) Correct
 
->>Q4: Protecting the Docker Runtime does not apply to Developers only to Operators running images <<
+>>Q5: To avoid resource starvation a user can run use the --cpus option to specify a fixed cpu quota when starting a container   <<
 (*) Correct
 ( ) Incorrect
+
 
 ## Correct and Incorrect Ansers
 
