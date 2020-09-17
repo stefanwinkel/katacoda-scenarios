@@ -1,6 +1,6 @@
 {
-  "title": "MyTest1 ",
-  "description": "MyTest1",
+  "title": "Welcome to 401 Container Security Defense ",
+  "description": "Protecting the Docker Runtime environment",
   "difficulty": "beginner",
   "time": "20 minutes",
   "details": {
@@ -16,7 +16,7 @@
         "code": "build_stresser.sh"
     },
     {
-        "title":"Step 3 - Remap Users with User and Network NameSpace",
+        "title":"Step 3 - Remap UserIDs with User/Network NameSpace",
         "text": "step3.md"
     },
     {
