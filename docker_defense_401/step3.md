@@ -18,7 +18,7 @@ Watch the video for a short demo on remapping an Nmap container process while st
 
 ## Use Network Namespace
 
-When containers are launched, a network interface is defined and  create. This gives the container a unique IP address and interface.
+The network namespace allows a container to have its own view of network interfaces and routing tables. When containers are launched, a network interface is defined and  create. This gives the container a unique IP address and interface.
 
 `docker run -it alpine ip addr show`{{execute}}
 
@@ -27,4 +27,10 @@ By changing the namespace to host, instead of the  container's network being iso
 `docker run -it --net=host alpine ip addr show`{{execute}}
 
 If the process listens on ports, they'll be listened on the host interface and mapped to the container.
+
+The network namespace isolates both the interfaces and the routing table, so the routing information is independent of the IP routing table on the host.
+
+## Advanced
+
+Configure the network namespace so that the container can send traffic only to 192.168.1.0/24 addresses. You should test this with a ping from within the container to the remote end
 
