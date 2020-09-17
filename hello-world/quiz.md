@@ -28,4 +28,4 @@ What is command flag to limit the amount of memory a container can use to  150 ?
 
 ## Correct and Incorrect Ansers
 
-When a user clicks **Check Answers**, the correct answers will appear with a Green tick! If they have entered anything incorrect they will be asked to check and try again.
+When a user clicks **Check Answers**, the correct answers will appear with a Green tick! If a user has entered anything incorrect he/she will be asked to check and try again.
