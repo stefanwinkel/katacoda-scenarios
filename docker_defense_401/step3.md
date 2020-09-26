@@ -4,7 +4,7 @@
 
 The best way to prevent privilege-escalation attacks from within a container is to configure your container’s applications to run as unprivileged users. In many instances there is no need to run a container as root user.
 
-By default, user and group IDs inside the consiner are equivalent to the same IDs on the host machine. Docker supports isolating the user namespace.  For containers whose processes must run as the root user within the container, you can re-map this user to a less-privileged user on the Docker host
+By default, user and group IDs inside the consiner are equivalent to the same IDs on the host machine. This is dangerous in the sense that if a container escape might lead to a full host compromise if the process was running as root. Docker supports isolating the user namespace.  For containers whose processes must run as the root user within the container, you can re-map this user to a less-privileged user on the Docker host
 
 When the user namespace is enabled, user and group IDs in the container are remapped to IDs that do not exist on the host. A number of relatively recent challenges need to be  addressed but one thing you can do to make a significant difference is remap our server’s user (UIDs) and group (GIDs) ranges to different user and group ranges within your containers.
 
