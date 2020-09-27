@@ -3,18 +3,18 @@ Docker drops most of the capabilities for the containers process
 Docker Container default kernel capabilities: https://github.com/moby/moby/blob/master/oci/caps/defaults.go
 
 # Start a container
-`docker container run --rm -it alpine sleep 100`{{execute}
+`docker container run --rm -it alpine sleep 100`{{execute}}
 
 ### Limit Kernel Capabilities
 
 #Run getpcaps command with the PID of our container and see the capabilities
-`pid=`ps -ef |grep "docker container run " | head -n 1 | awk {'print $2'}` && getpcaps $pid`{{execute}
+`pid=`ps -ef |grep "docker container run " | head -n 1 | awk {'print $2'}` && getpcaps $pid`{{execute}}
 
 # Start a Privileged container
 `docker container run --rm -it --priviledged alpine sleep 100`{{execute}}
 
 # Run getpcaps command with the PID of our container and notice the many capabilities
-`pid=`ps -ef |grep "docker container run " | head -n 1 | awk {'print $2'}` && getpcaps $pid`{{execute}
+`pid=`ps -ef |grep "docker container run " | head -n 1 | awk {'print $2'}` && getpcaps $pid`{{execute}}
 
 # Fine grained ACLs -Drop all Kernel Capabilities and add back
 `docker container run -d --cap-drop=all --cap-add=net_bind_service --name web -p 80:80 httpd`{{execute}}
@@ -51,12 +51,12 @@ echo "bane installed!"
 `sudo bane sample.toml`{{execute}}
 `sudo apparmor_parser -r -W /path/to/your/apparmor-nginx-profile`{{execute}
 `docker run -d --security-opt  "apparmor=apparmor-profile-name" -p 80:80 nginx`{{execute}}
-`sudo apparmor_parser -r -W ./apparmor-nginx-profile`
+`sudo apparmor_parser -r -W ./apparmor-nginx-profile`{{execute}}
 
 # Run nginx
-docker container run -d --security-opt "apparmor=apparmor-nginx" -p 80:80 --name nginx nginx
+`docker container run -d --security-opt "apparmor=apparmor-nginx" -p 80:80 --name nginx nginx`{{execute}}
 
 # Malicious activity
-docker container exec -it nginx /bin/bash
+`docker container exec -it nginx /bin/bash`{{execute}}
 touch ~/hello
 
