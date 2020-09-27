@@ -40,13 +40,23 @@
     },
     "finish": {
       "text": "finish.md"
-    }
+    },
+
+    "assets":  {
+            "host01": [
+                {"file": "scripts/build_stresser.sh", "target": "/usr/local/bin/", "chmod": "+x"},
+                {"file": "scripts/install_bane.sh", "target": "/usr/local/bin/", "chmod": "+x"},
+                {"file": "scripts/clean.sh", "target": "/usr/local/bin/", "chmod": "+x"},
+                {"file": "scripts/load_docker_cmds.sh", "target": "/usr/local/bin/", "chmod": "+x"}
+                    ]
+               }
   },
   "environment": {
     "uilayout": "terminal",
     "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\r\n"
   },
   "backend": {
-    "imageid": "docker"
+    "imageid": "ubuntu:2004"
   }
+
 }
