@@ -13,7 +13,7 @@
     {
         "title":"Step 2 - Limit CPU Processing Time",
         "text": "step2.md",
-        "code": "build_stresser.sh"
+        "code": "/usr/local/bin/build_stresser.sh"
     },
     {
         "title":"Step 3 - Remap UserIDs with User/Network NameSpace",
