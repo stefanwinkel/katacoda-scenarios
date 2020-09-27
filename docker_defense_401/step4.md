@@ -1,34 +1,62 @@
-<img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
+# Default Kernel Capabilities Docker Container
+Docker drops most of the capabilities for the containers process
+Docker Container default kernel capabilities: https://github.com/moby/moby/blob/master/oci/caps/defaults.go
 
-## PID Namespaces
+# Start a container
+`docker container run --rm -it alpine sleep 100`{{execute}
 
-If you run the ps command inside a Docker container, you can see only the processes running inside that container and none of the processes running on the host
+### Limit Kernel Capabilities
 
-`docker run --rm -it --name hello ubuntu`{{execute}}
+#Run getpcaps command with the PID of our container and see the capabilities
+`pid=`ps -ef |grep "docker container run " | head -n 1 | awk {'print $2'}` && getpcaps $pid`{{execute}
 
-A ps reveals only the bash shell and the ps command being active
+# Start a Privileged container
+`docker container run --rm -it --priviledged alpine sleep 100`{{execute}}
 
-```
-ps -eaf
-exit
-```{{execute}}
+# Run getpcaps command with the PID of our container and notice the many capabilities
+`pid=`ps -ef |grep "docker container run " | head -n 1 | awk {'print $2'}` && getpcaps $pid`{{execute}
 
-This is achieved with the process ID namespace, which restricts the set of process IDs that are visible.
+# Fine grained ACLs -Drop all Kernel Capabilities and add back
+`docker container run -d --cap-drop=all --cap-add=net_bind_service --name web -p 80:80 httpd`{{execute}}
+`ps -fC httpd | tail -1`{{execute}}
+`getpcaps 6554`{{execute}}
 
-By changing the Pid namespace allows a container to interact with processes beyond its normal scope.
+### Limit System Calls
+Kernel is shared, container should not be able to call system calls out of the host
+seccomp is a kernel feature that determines allows or disallows process to allow system calls
+Docker uses default profile
 
-`docker run --rm -it --pid=host --name hello ubuntu`{{execute}}
-```
-ps -eaf
-exit
-```{{execute}}
+# only allows systems calls for our application and block all
+`docker container run --security-opt  seccomp=/path/to/seccomp/profile.json myapp`{{execute}}
 
+# Tool to pipe output of strace and auto generate docker seccomp profile
+# to whitelist syscalls needed only
+https://github.com/blacktop/seccomp-gen
 
-## Advanced
+# Mandatory access control - AppArmor & SELinux Profiles
+https://github.com/genuinetools/bane
 
-By run unshare you can specify that you want a new PID namespace with the --pid  flag:
+# Install Bane
+`
+# Export the sha256sum for verification. # Download and check the sha256sum.
+`export BANE_SHA256="69df3447cc79b028d4a435e151428bd85a816b3e26199cd010c74b7a17807a05"
+curl -fSL "https://github.com/genuinetools/bane/releases/download/v0.4.4/bane-linux-amd64" -o "/usr/local/bin/bane" \
+	&& echo "${BANE_SHA256}  /usr/local/bin/bane" | sha256sum -c - \
+	&& chmod a+x "/usr/local/bin/bane"
+echo "bane installed!"
+`{{execute}}
 
-sudo unshare --pid sh
-whoami
+# Execute bane on sample.toml
+## sample.toml is a AppArmor sample config for nginx in a container.
+`sudo bane sample.toml`{{execute}}
+`sudo apparmor_parser -r -W /path/to/your/apparmor-nginx-profile`{{execute}
+`docker run -d --security-opt  "apparmor=apparmor-profile-name" -p 80:80 nginx`{{execute}}
+`sudo apparmor_parser -r -W ./apparmor-nginx-profile`
 
-Why does the second time you run the whoami the command fails ?
+# Run nginx
+docker container run -d --security-opt "apparmor=apparmor-nginx" -p 80:80 --name nginx nginx
+
+# Malicious activity
+docker container exec -it nginx /bin/bash
+touch ~/hello
+
