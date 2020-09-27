@@ -12,7 +12,8 @@
     },
     {
         "title":"Step 2 - Limit CPU Processing Time",
-        "text": "step2.md"
+        "text": "step2.md",
+        "code": "build_stresser.sh"
     },
     {
         "title":"Step 3 - Remap UserIDs with User/Network NameSpace",
@@ -47,8 +48,10 @@
                 {"file": "scripts/install_bane.sh", "target": "/usr/local/bin/", "chmod": "+x"},
                 {"file": "scripts/clean.sh", "target": "/usr/local/bin/", "chmod": "+x"},
                 {"file": "scripts/load_docker_cmds.sh", "target": "/usr/local/bin/", "chmod": "+x"}
-                    ]
-               }
+                ]
+                    }
+                }
+
   },
   "environment": {
     "uilayout": "terminal",
