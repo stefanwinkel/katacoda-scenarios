@@ -8,14 +8,14 @@ Start a webserver and use getpcaps to list the capabilities
 
 ```
 docker container run -d --name web1 -p 81:80 httpd
-pid=`ps -ef |grep "httpd" | tail -1 | awk '{print $2}'`
+pd=`ps -fC httpd | tail -1 | awk '{print $2}'
 getpcaps $pid
 ```{{execute}}
 
 To compare we use the --privilege flag. Inspect how many unnecessary capabilities are now running !
 ```
 docker container run -d --name web2 --privilege -p 82:80 httpd
-pid=`ps -ef |grep "httpd2" | tail -1 | awk '{print $2}'
+pd=`ps -fC httpd | tail -1 | awk '{print $2}'
 getpcaps $pid
 ```{{execute}}
 
@@ -26,7 +26,7 @@ To reduce the attack surface we will drop all Kernel Permissions with --cap-drop
 ```
 docker container run -d --cap-drop=all --cap-add=net_bind_service --name web3 -p 83:80 httpd
 pd=`ps -fC httpd | tail -1 | awk '{print $2}'
-getpcaps $pd`
+getpcaps $pd
 ```{{execute}}
 
 #### Limit System Calls
