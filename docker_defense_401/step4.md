@@ -26,7 +26,7 @@ To reduce the attack surface we will drop all Kernel Permissions with --cap-drop
 ```
 docker container run -d --cap-drop=all --cap-add=net_bind_service --name web3 -p 83:80 httpd
 pid=`ps -fC httpd | tail -1 | awk '{print $2}'`
-getpcaps $pd
+getpcaps $pid
 ```{{execute}}
 
 #### Limit System Calls
@@ -39,8 +39,9 @@ Only allows systems calls for our application and block all
 
 #### Autogenerate AppArmor Profile with Bane
 
-Install Bane `/usr/local/bin/install_bane.sh`{{execute}}.
-If you are curious, view the installation script `cat /usr/local/bin/install_bane.sh`{{execute}}
+Install Bane `/usr/local/bin/scripts/install_bane.sh`{{execute}}.
+
+If you are curious, view the installation script `cat /usr/local/bin/scripts/install_bane.sh`{{execute}}
 
 Execute Bane and auto generate Nginx AppArmor Profile
 
@@ -53,12 +54,15 @@ sudo apparmor_parser -r -W ./apparmor-nginx-profile
 
 Run nginx
 
-`docker container run -d --security-opt "apparmor=apparmor-nginx" -p 85:80 --name nginx nginx`{{execute}}
+`docker container run -d --security-opt "apparmor=docker-nginx-sample" -p 85:80 --name nginx nginx`{{execute}}
 
-Malicious activity
+`docker container run -d --security-opt "apparmor=apparmor-nginx" -p 86:80 --name nginx2 nginx`{{execute}}
 
+Start a shell inside the container:
 `docker container exec -it nginx /bin/bash`{{execute}}
-touch ~/hello
+
+Notice that the intended malicious activity is blocked
+`touch ~/hello`{{execute}
 
 
 #### References
