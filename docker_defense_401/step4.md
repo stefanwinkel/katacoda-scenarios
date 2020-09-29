@@ -8,14 +8,14 @@ Here are the defaults capabilities: https://github.com/moby/moby/blob/master/oci
 Start a webserver and use getpcaps to list the capabilities
 
 ```
-docker container run --name web -p 80:80
+docker container run --name web -p 80:80 httpd
 pid=`ps -ef |grep "httpd" | tail -1 | awk '{print $2}'`
 getpcaps $pid
 ```{{execute}}
 
 ### Same but now with the privileged flag set and notice all the unnecessary capabilities
 ```
-docker container run --name web2 -p 80:80
+docker container run --name web2 -p 80:80 httpd
 pid=`ps -ef |grep "httpd2" | tail -1 | awk '{print $2}'
 getpcaps $pid
 ```{{execute}}
@@ -27,7 +27,7 @@ Fine grained ACLs -Drop all Kernel Capabilities and add back
 ```
 docker container run -d --cap-drop=all --cap-add=net_bind_service --name web3 -p 80:80 httpd
 pd=`ps -fC httpd | tail -1 | awk '{print $2}'
-&& getpcaps $pd`
+getpcaps $pd`
 ```{{execute}}
 
 #### Limit System Calls
@@ -40,10 +40,10 @@ Only allows systems calls for our application and block all
 
 #### Autogenerate AppArmor Profile with Bane
 
-Use Bane `cat /usr/local/bin/install_bane.sh`{{execute}} to autogenerate a AppArmor Profile.
-Install Bane `/usr/local/bin/install_bane.sh`{{execute}}
+Install Bane `/usr/local/bin/install_bane.sh`{{execute}}.
+If you are curious, view the installation script `cat /usr/local/bin/install_bane.sh`{{execute}}
 
-Execute Bane and generate Nginx AppArmor Profile
+Execute Bane and auto generate Nginx AppArmor Profile
 
 ```
 bane sample.toml
