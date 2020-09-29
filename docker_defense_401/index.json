@@ -17,12 +17,12 @@
     },
     {
         "title":"Step 3 - Remap UserIDs with User/Network NameSpace - Run Nmap as Root",
-        "text": "step3.md"
+        "text": "step3.md",
         "code": "clear.sh"
     },
     {
         "title":"Step 4 - Whitelist Kernel Capabilities & Syscalls - Automatic AppArmor Profile",
-        "text": "step4.md"
+        "text": "step4.md",
         "code": "clear.sh"
     },
     {
