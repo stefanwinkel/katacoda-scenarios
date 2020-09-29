@@ -21,7 +21,7 @@
         "code": "clear.sh"
     },
     {
-        "title":"Step 4 - Whitelist Kernel Capabilities & Syscalls - Automatic AppArmor Profile",
+        "title":"Step 4 - Whitelist Kernel Capabilities/Syscalls - Use Automatic AppArmor Profile",
         "text": "step4.md",
         "code": "clear.sh"
     },

@@ -1,21 +1,20 @@
-Default Kernel Capabilities Docker Container
 
 Docker drops most of the capabilities for the containers process.
-Here are the defaults capabilities: https://github.com/moby/moby/blob/master/oci/caps/defaults.go
+Here are the default Kernel capabilities for  a Docker Container: https://github.com/moby/moby/blob/master/oci/caps/defaults.go
 
-### Do not use the privilege flag unless absolutely necessary (Dont's: #5)
+### Avoid --privilege flag unless absolutely necessary (Dont's: #5)
 
 Start a webserver and use getpcaps to list the capabilities
 
 ```
-docker container run --name web -p 80:80 httpd
+docker container run -d --name web1 -p 81:80 httpd
 pid=`ps -ef |grep "httpd" | tail -1 | awk '{print $2}'`
 getpcaps $pid
 ```{{execute}}
 
-### Same but now with the privileged flag set and notice all the unnecessary capabilities
+To compare we use the --privilege flag. Inspect how many unnecessary capabilities are now running !
 ```
-docker container run --name web2 -p 80:80 httpd
+docker container run -d --name web2 --privilege -p 82:80 httpd
 pid=`ps -ef |grep "httpd2" | tail -1 | awk '{print $2}'
 getpcaps $pid
 ```{{execute}}
@@ -23,9 +22,9 @@ getpcaps $pid
 
 ### Whitelist Capabilities & SystemCalls (DO's, item #3, #4)
 
-Fine grained ACLs -Drop all Kernel Capabilities and add back
+To reduce the attack surface we will drop all Kernel Permissions with --cap-drop and only add back the ones we need (whitelisting)
 ```
-docker container run -d --cap-drop=all --cap-add=net_bind_service --name web3 -p 80:80 httpd
+docker container run -d --cap-drop=all --cap-add=net_bind_service --name web3 -p 83:80 httpd
 pd=`ps -fC httpd | tail -1 | awk '{print $2}'
 getpcaps $pd`
 ```{{execute}}
@@ -48,13 +47,13 @@ Execute Bane and auto generate Nginx AppArmor Profile
 ```
 bane sample.toml
 apparmor_parser -r -W /path/to/your/apparmor-nginx-profile
-docker run -d --security-opt  "apparmor=apparmor-profile-name" -p 80:80 nginx
+docker run -d --security-opt  "apparmor=apparmor-profile-name" -p 84:80 nginx
 sudo apparmor_parser -r -W ./apparmor-nginx-profile
 ```{{execute}}
 
 Run nginx
 
-`docker container run -d --security-opt "apparmor=apparmor-nginx" -p 80:80 --name nginx nginx`{{execute}}
+`docker container run -d --security-opt "apparmor=apparmor-nginx" -p 85:80 --name nginx nginx`{{execute}}
 
 Malicious activity
 
