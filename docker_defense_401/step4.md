@@ -12,9 +12,9 @@ pid=`ps -fC httpd | tail -1 | awk '{print $2}'`
 getpcaps $pid
 ```{{execute}}
 
-To compare we use the --privilege flag. Inspect how many unnecessary capabilities are now running !
+To compare we use the --privileged flag. Inspect how many unnecessary capabilities are now running !
 ```
-docker container run -d --name web2 --privilege -p 82:80 httpd
+docker container run -d --name web2 --privileged -p 82:80 httpd
 pid=`ps -fC httpd | tail -1 | awk '{print $2}'`
 getpcaps $pid
 ```{{execute}}
