@@ -1,6 +1,7 @@
 
-Docker drops a few of the capabilities for the containers process, but still too many capabilities and system calls are possible without restrictions. To minimize our attack surface, we will learn in this demo, how we can construct automatically whitelists to only allow what is absolutely necessary
+Docker drops a few of the capabilities for the containers process, but still too many capabilities and system calls are possible without restrictions.
 [Here](https://github.com/moby/moby/blob/master/oci/caps/defaults.go) are the default kernel capabilities for a Docker container
+To minimize our attack surface, we will learn in this demo, how we can construct automatically whitelists to only allow what is absolutely necessary
 
 ### Avoid --privilege flag unless absolutely necessary (Dont's: #5)
 
