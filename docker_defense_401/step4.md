@@ -37,7 +37,7 @@ seccomp is a kernel feature that determines allows or disallows process to allow
 
 https://github.com/blacktop/seccomp-gen
 
-We then could run our App Docker Container something like: docker container run --security-opt no-new-privileges --security-opt seccomp=/usr/local/seccomp/profile1_seccomp.json <your>/<image>:tag>. Let's see how something similar will work for AppArmor
+We then could run our App Docker Container something like: docker container run --security-opt no-new-privileges --security-opt seccomp=/usr/local/seccomp/profile1_seccomp.json image_tag.Let's see how something similar will work for AppArmor
 
 #### Autogenerate WhiteListed AppArmor Profile with Bane (DO's: #3, #6)
 
@@ -47,3 +47,26 @@ If you are curious, view the installation script `cat /usr/local/bin/scripts/ins
 
 Execute Bane and auto generate Nginx AppArmor Profile
 
+```
+mkdir -p /etc/apparmor.d/containers
+bane /root/sample/bin/sample.toml
+apparmor_parser -r -W /etc/apparmor.d/containers//apparmor-nginx-profile
+docker run -d --security-opt="apparmor:docker-nginx-sample" -p 84:80 nginx
+```{{execute}}
+
+Start a shell inside the container:
+
+`docker container exec -it nginx /bin/bash`{{execute}}
+
+Notice that the intended malicious activity is blocked
+
+`touch ~/hello`{{execute}
+
+Let's cleanup
+`/usr/local/bin/scripts/kill_dockers.sh`{{execute}} will stop/remove all containers
+
+
+#### References
+
+- Tool for autogenerate AppArmor Profiles: https://github.com/genuinetools/bane
+- Tool for autogenerate SecComp Profiles: https://github.com/blacktop/seccomp-gen
