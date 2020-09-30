@@ -6,7 +6,7 @@ curl -fSL "https://github.com/genuinetools/bane/releases/download/v0.4.4/bane-li
 	&& echo "${BANE_SHA256}  /usr/local/bin/bane" | sha256sum -c - \
 	&& chmod a+x "/usr/local/bin/bane"
 
-rm -rf /root/sample && mkdir -p root/sample && cd /root/sample && git clone https://github.com/genuinetools/bane.git && cd /root/sample/bane
+rm -rf /root/sample && mkdir -p /root/sample && cd /root/sample && git clone https://github.com/genuinetools/bane.git && cd /root/sample/bane
 
 echo "bane installed!"
 
