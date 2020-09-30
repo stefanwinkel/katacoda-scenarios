@@ -1,6 +1,6 @@
 
 Docker drops most of the capabilities for the containers process.
-Here are the default Kernel capabilities for  a Docker Container: https://github.com/moby/moby/blob/master/oci/caps/defaults.go
+[Here](https://github.com/moby/moby/blob/master/oci/caps/defaults.go) are the default Kernel capabilities for a Docker Container
 
 ### Avoid --privilege flag unless absolutely necessary (Dont's: #5)
 
@@ -73,5 +73,6 @@ This is the end of this demo. You can now stop/remove all containers by running:
 
 #### References
 
+- Default Kernel capabilities for a Docker Container: https://github.com/moby/moby/blob/master/oci/caps/defaults.go
 - Tool for autogenerate AppArmor Profiles: https://github.com/genuinetools/bane
 - Tool for autogenerate SecComp Profiles: https://github.com/blacktop/seccomp-gen
