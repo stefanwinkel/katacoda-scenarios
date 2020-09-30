@@ -19,7 +19,7 @@ We created a Dockerfile based on an Ubuntu layout and added the stress program. 
 
 Klick to build the Docker Container
 ```
-docker build -f /usr/local/bin/dockerfiles/Stresser_Dockerfile -t my_stresser
+docker build -f /usr/local/bin/dockerfiles/Stresser_Dockerfile -t my_stresser .
 ```{{execute}}
 
 ## Run the Container and limit the memory
