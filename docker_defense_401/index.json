@@ -13,7 +13,7 @@
     {
         "title":"Step 2 - Assign CPU slice - Avoid Slow performance",
         "text": "step2.md",
-        "code": "build_stresser.sh"
+        "code": "clear.sh"
     },
     {
         "title":"Step 3 - Remap UserIDs with User/Network NameSpace - Run Nmap as Root",
