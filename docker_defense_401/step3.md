@@ -1,6 +1,6 @@
 <img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
 
-## Remapping Users with the USER id Namespace
+### Remapping Users with the USER id Namespace (Don't: #4)
 
 The best way to prevent privilege-escalation attacks from within a container is to configure your container’s applications to run as unprivileged users. In many instances there is no need to run a container as root user.
 
@@ -14,7 +14,7 @@ In the following demo, we show how an Nmap container can still run the nmap scan
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/wMjHunoR0zQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-## Use Network Namespace
+### Avoid --net=host flag - Use Network Namespace (Don't #4)
 
 The network namespace allows a container to have its own view of network interfaces and routing tables. When containers are launched, a network interface is defined and  create. This gives the container a unique IP address and interface.
 
@@ -26,7 +26,7 @@ By changing the namespace to host, instead of the  container's network being iso
 
 If the process listens on ports, they'll be listened on the host interface and mapped to the container.
 
-The network namespace isolates both the interfaces and the routing table, so the routing information is independent of the IP routing table on the host.
+Avoid using --net=host flag. The network namespace isolates both the interfaces and the routing table, so the routing information is independent of the IP routing table on the host.
 
 ## Advanced
 

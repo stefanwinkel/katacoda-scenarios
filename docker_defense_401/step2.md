@@ -2,10 +2,10 @@
 
 Processing time is just as scarce as memory, but the effect of starvation is performance degradation instead of failure. A paused process that is waiting for time on the CPU is still working correctly. But a slow process may be worse than a failing one if it’s running an important latency-sensitive data-processing program, a revenue-generating web application, or a backend service for your app. Docker lets you limit a container’s CPU resources in two ways.
 
-## Attack use case
+### Attack use case
 Without these limits, an adversary could use performance degradation for CryptoCurrency mining, your containers would still be able to run, but the attacker is using all/most of CPU time for example for Bitcoin mining through a rogue container.
 
-## Slice vs Quota CPU limits
+### Slice vs Quota CPU limits (DO's: #4)
 1) The cpu-shares option allows you to specify the relative share of cpu a container will receive when there is contention for cpu.
 2) You can also configure absolute cpu quotas by using the --cpus option. This cpu quota specifies the fixed share of cpu that the container is entitled may use before it is throttled.
 

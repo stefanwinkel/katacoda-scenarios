@@ -9,11 +9,11 @@ Memory limits are one of the most basic restriction you can place on a container
 
 You can put a limit in place by using the -m or --memory flag on the docker container run or docker container create commands. If the image reaches the upper threshold the image will be halted. Similar can be done for Swap memory
 
-## Limit Image Memory Usage
+### Limit Image Memory Usage (DO's: #1)
 
 Lets build a simple Docker image that calls the Unix stress program for 60s
 
-## Create and build a Docker image
+### Create and build a Docker image
 
 We create a Dockerfile based on an Ubuntu layout, add the stress program, and build the image
 
