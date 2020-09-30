@@ -51,16 +51,15 @@ Execute Bane and auto generate Nginx AppArmor Profile
 mkdir -p /etc/apparmor.d/containers
 bane /root/sample/bane/sample.toml
 apparmor_parser -r -W /etc/apparmor.d/containers//apparmor-nginx-profile
-docker run -d --security-opt="apparmor:docker-nginx-sample" -p 84:80 nginx
 ```{{execute}}
 
-Start a shell inside the container:
+Launch the container and let's try to run some malicious operation:
 
-`docker container exec -it nginx /bin/bash`{{execute}}
+`docker run --security-opt="apparmor:docker-nginx-sample" -p 84:80 --rm -it nginx bash`{{execute}}
 
 Notice that the intended malicious activity is blocked
 
-`touch ~/hello`{{execute}
+`touch ~/hello`{{execute}}
 
 Let's cleanup
 `/usr/local/bin/scripts/kill_dockers.sh`{{execute}} will stop/remove all containers
