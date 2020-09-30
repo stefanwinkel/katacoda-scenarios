@@ -13,8 +13,9 @@ The mapped user is assigned a range of UIDs which function within the namespace 
 In the following demo, we show how an Nmap container can still run the nmap scan as root inside the container, but outside the container the process is mapped to a less privileged user. Watch the video to see how the remapping users ids work and the Container still can run nmap as root
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/wMjHunoR0zQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+Using the Network Namespace correctly we can further limit the scope of a Container
 
-### Avoid --net=host flag - Use Network Namespace (Don't #4)
+### Avoid using --net=host - Use Network Namespace seperation (Don't #4)
 
 The network namespace allows a container to have its own view of network interfaces and routing tables. When containers are launched, a network interface is defined and  create. This gives the container a unique IP address and interface.
 

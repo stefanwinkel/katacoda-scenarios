@@ -29,15 +29,15 @@ pid=`ps -fC httpd | tail -1 | awk '{print $2}'`
 getpcaps $pid
 ```{{execute}}
 
-#### Limit System Calls
+#### Limit System Calls (Dont's : #9)
 
 Since the Kernel is shared, container(s) should not be able to call random system calls out of the host. seccomp is a kernel feature that determines allows or disallows process to allow system calls. Docker uses default profile
 
 Only allows systems calls for our application and block all
 
-`docker container run --security-opt  seccomp=/path/to/seccomp/profile.json myapp`{{execute}}
+`docker container run --security-opt  seccomp=/usr/local/seccomp/profile1_seccomp.json myapp`{{execute}}
 
-#### Autogenerate AppArmor Profile with Bane
+#### Autogenerate AppArmor Profile with Bane (DO's: #3, #6)
 
 Install Bane `/usr/local/bin/scripts/install_bane.sh`{{execute}}.
 
@@ -63,6 +63,9 @@ Start a shell inside the container:
 
 Notice that the intended malicious activity is blocked
 `touch ~/hello`{{execute}
+
+Let's cleanup
+`/usr/local/bin/scripts/kill_dockers.sh`{{execute}} will stop/remove all containers
 
 
 #### References
