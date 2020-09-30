@@ -1,6 +1,6 @@
 
-Docker drops most of the capabilities for the containers process.
-[Here](https://github.com/moby/moby/blob/master/oci/caps/defaults.go) are the default Kernel capabilities for a Docker Container
+Docker drops a few of the capabilities for the containers process, but still too many capabilities and system calls are possible without restrictions. To minimize our attack surface, we will learn in this demo, how we can construct automatically whitelists to only allow what is absolutely necessary
+[Here](https://github.com/moby/moby/blob/master/oci/caps/defaults.go) are the default kernel capabilities for a Docker container
 
 ### Avoid --privilege flag unless absolutely necessary (Dont's: #5)
 
@@ -22,7 +22,7 @@ getpcaps $pid
 
 ### Whitelist Capabilities & SystemCalls (DO's, item #3, #4)
 
-To reduce the attack surface we will drop all Kernel Permissions with --cap-drop and only add back the ones we need (whitelisting)
+To reduce the attack surface we will drop all kernel permissions with --cap-drop and only add back the ones we need (whitelisting)
 ```
 docker container run -d --cap-drop=all --cap-add=net_bind_service --name web3 -p 83:80 httpd
 pid=`ps -fC httpd | tail -1 | awk '{print $2}'`
@@ -67,7 +67,7 @@ Once we are done verifying, we exit the container:  `exit`{{execute}}
 
 ### Cleanup
 
-This is the end of this demo. You can now stop/remove all containers by running:
+This is the end of this demo. You can now stop/remove all created containers by running:
 `/usr/local/bin/scripts/kill_dockers.sh`{{execute}}
 
 
