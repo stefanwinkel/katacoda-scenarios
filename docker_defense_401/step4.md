@@ -37,7 +37,11 @@ seccomp is a kernel feature that determines allows or disallows process to allow
 
 https://github.com/blacktop/seccomp-gen
 
-We then could run our App Docker Container something like: docker container run --security-opt no-new-privileges --security-opt seccomp=/usr/local/seccomp/profile1_seccomp.json image_tag.Let's see how something similar will work for AppArmor
+We then could run our App Docker Container something like:
+
+```bash
+docker container run --security-opt no-new-privileges --security-opt seccomp=/usr/local/seccomp/profile1_seccomp.json image_tag.Let's see how something similar will work for AppArmor
+```
 
 #### Autogenerate WhiteListed AppArmor Profile with Bane (DO's: #3, #6)
 
