@@ -57,9 +57,11 @@ Start the container with the generated profile and launch a shell:
 
 `docker run --security-opt="apparmor:docker-nginx-sample" -p 84:80 --rm -it nginx bash`{{execute}}
 
-Now, when we try to perform a malicious operation, like touching a file, we notice that the operation is blocked by our AppArmor profile:
+Now, when we try to perform a malicious operation, like touching a file inside the container, we notice that the operation is blocked by our AppArmor profile:
 
-`touch ~/hello || exit `{{execute}}
+`touch ~/hello`{{execute}}
+
+Once we are done verifying, we exit the container:  `exit`{{execute}}
 
 ### Cleanup
 
