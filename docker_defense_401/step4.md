@@ -31,17 +31,15 @@ getpcaps $pid
 
 #### Limit System Calls (Dont's : #9) - Autogenerate SysCall whitelists
 
-Since the Kernel is shared, container(s) should not be able to call random system calls out of the host.
+Since the Linux kernel is shared, container(s) should not be able to call random system calls out of the host.
 
-seccomp is a kernel feature that determines allows or disallows process to allow system calls. Docker uses default profile which we can easily customize to constraint it further. We should customize to  only allows systems calls for our application and block all others. We can generate automatically a list of system calls from strace and then use the OpenSource tool seccomp-gen to automatically generate a custom seccomp profile. This adds a LOT of security by drastically limiting your attack surface to only what is needed.
-
-https://github.com/blacktop/seccomp-gen
-
-We then could run our App Docker Container something like:
+Seccomp is a kernel feature that determines allows or disallows process to allow system calls. Docker uses a default profile which we can easily customize to constraint it further. We should customize to only allows systems calls for our application and block all others. We can generate automatically a list of system calls from strace utility and then use the OpenSource tool [seccomp-gen](https://github.com/blacktop/seccomp-gen) to automatically generate a custom seccomp profile. This adds a LOT of security by drastically limiting your attack surface to only what is needed. We then can launch our container with something like:
 
 ```bash
-docker container run --security-opt no-new-privileges --security-opt seccomp=/usr/local/seccomp/profile1_seccomp.json image_tag.Let's see how something similar will work for AppArmor
+docker container run --security-opt no-new-privileges --security-opt seccomp=/usr/local/seccomp/profile1_seccomp.json <your_container_image_tag>.
 ```
+
+Let's see how something similar will work for AppArmor:
 
 #### Autogenerate WhiteListed AppArmor Profile with Bane (DO's: #3, #6)
 
