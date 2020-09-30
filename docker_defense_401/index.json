@@ -46,7 +46,8 @@
 
     "assets":  {
             "host01": [
-                {"file": "scripts/*.sh", "target": "/usr/local/bin/", "chmod": "+x"}
+                {"file": "scripts/*.sh", "target": "/usr/local/bin/", "chmod": "+x"},
+                {"file": "dockerfiles/*Dockerfile", "target": "/usr/local/bin/", "chmod": "-x"}
                     ]
                }
   },
