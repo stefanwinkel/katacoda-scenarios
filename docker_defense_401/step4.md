@@ -13,13 +13,14 @@ pid=`ps -fC httpd | tail -1 | awk '{print $2}'`
 getpcaps $pid
 ```{{execute}}
 
-To compare we use the --privileged flag. Inspect how many unnecessary capabilities are now running !
+To compare we use the --privileged flag and inspect the capabilities
 ```
 docker container run -d --name web2 --privileged -p 82:80 httpd
 pid=`ps -fC httpd | tail -1 | awk '{print $2}'`
 getpcaps $pid
 ```{{execute}}
 
+The last line, output by getpcaps (=eip), shows us that the process has all capabilities in its permitted, effective, and inheritable sets, which is very dangerous, and should be avoided.  In some recent attacks we have seen attackers trying to upload their SSH public keys inside the host’s /root/authorized_keys via their spawned privileged container
 
 ### Whitelist Capabilities & SystemCalls (DO's, item #3, #4)
 
