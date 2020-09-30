@@ -45,24 +45,26 @@ Install Bane `/usr/local/bin/scripts/install_bane.sh`{{execute}}.
 
 If you are curious, view the installation script `cat /usr/local/bin/scripts/install_bane.sh`{{execute}}
 
-Execute Bane and auto generate Nginx AppArmor Profile
+Execute Bane, automatically generate a Nginx profile based upon our configuration and check the profile for issues:
 
 ```
 mkdir -p /etc/apparmor.d/containers
 bane /root/sample/bane/sample.toml
-apparmor_parser -r -W /etc/apparmor.d/containers//apparmor-nginx-profile
+apparmor_parser -r -W /etc/apparmor.d/containers/docker-nginx-sample
 ```{{execute}}
 
-Launch the container and let's try to run some malicious operation:
+Start the container with the generated profile and launch a shell:
 
 `docker run --security-opt="apparmor:docker-nginx-sample" -p 84:80 --rm -it nginx bash`{{execute}}
 
-Notice that the intended malicious activity is blocked
+Now, when we try to perform a malicious operation, like touching a file, we notice that the operation is blocked by our AppArmor profile:
 
-`touch ~/hello`{{execute}}
+`touch ~/hello || exit `{{execute}}
 
 Let's cleanup
-`/usr/local/bin/scripts/kill_dockers.sh`{{execute}} will stop/remove all containers
+
+This is the end of this demo. You can now stop/remove all containers by running:
+`/usr/local/bin/scripts/kill_dockers.sh`{{execute}}
 
 
 #### References
