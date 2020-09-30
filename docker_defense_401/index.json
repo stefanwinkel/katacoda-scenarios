@@ -48,7 +48,7 @@
                 {"file": "scripts/*.sh", "target": "/usr/local/bin/", "chmod": "+x"}
                     ]
                }
-  }
+  },
   "environment": {
     "uilayout": "terminal",
     "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\r\n"
