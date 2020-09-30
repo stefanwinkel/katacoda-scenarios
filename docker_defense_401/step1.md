@@ -15,16 +15,14 @@ Lets build a simple Docker image that calls the Unix stress program for 60s
 
 ### Create and build a Docker image
 
-We create a Dockerfile based on an Ubuntu layout, add the stress program, and build the image
+We created a Dockerfile based on an Ubuntu layout and added the stress program. View the Dockerfile here: `cat /usr/local/bin/dockerfiles/Stresser_Dockerfile`{{execute}}
 
+Klick to build the Docker Container
 ```
-echo "FROM ubuntu:latest" > ./Dockerfile
-echo "RUN apt-get update && apt-get install -y stress " >> ./Dockerfile
-echo "CMD /usr/bin/stress -c 1 --timeout 60s" >> ./Dockerfile
-docker build -t my_stresser .
+docker build -f /usr/local/bin/dockerfiles/Stresser_Dockerfile -t my_stresser
 ```{{execute}}
 
-## Execute the container and limit the memory
+## Run the Container and limit the memory
 
 We run the container with limited memory (--memory) and verify with docker-stats that the runtime limit is set to 100mb
 
