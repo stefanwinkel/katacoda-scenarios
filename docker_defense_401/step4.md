@@ -61,7 +61,7 @@ Now, when we try to perform a malicious operation, like touching a file, we noti
 
 `touch ~/hello || exit `{{execute}}
 
-Let's cleanup
+### Cleanup
 
 This is the end of this demo. You can now stop/remove all containers by running:
 `/usr/local/bin/scripts/kill_dockers.sh`{{execute}}
