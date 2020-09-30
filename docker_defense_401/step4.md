@@ -49,7 +49,7 @@ Execute Bane and auto generate Nginx AppArmor Profile
 
 ```
 mkdir -p /etc/apparmor.d/containers
-bane /root/sample/bin/sample.toml
+bane /root/sample/bane/sample.toml
 apparmor_parser -r -W /etc/apparmor.d/containers//apparmor-nginx-profile
 docker run -d --security-opt="apparmor:docker-nginx-sample" -p 84:80 nginx
 ```{{execute}}
