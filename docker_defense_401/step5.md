@@ -5,27 +5,22 @@ By default, Docker runs through a non-networked UNIX socket. It can also optiona
     - In the daemon mode, it only allows connections from clients authenticated by a certificate signed by that CA.
     - In the client mode, it only connects to servers with a certificate signed by that CA.
 
-### Advanced Topic
+### Advanced Topic: Create a CA, server and client keys with OpenSSL
 Using TLS and managing a CA is an advanced topic. Please familiarize yourself with OpenSSL, x509, and TLS before using it in production.
 
-1: Create a CA, server and client keys with OpenSSL
+1a Generate the CA's private & public keys on the Docker Daemon's host machine
+`openssl genrsa -aes256 -out ca-key.pem 4096`{{execute}}
 
-```
-mkdir -pv ~/.docker
-cp -v {ca,cert,key}.pem ~/.docker
-export HOST=kali
-export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
-docker ps
-```{{execute}}
+1b Generate public key
+`openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem`{{execute}}
 
-Generate Server private Key
+2a Generate Server private Key
 `openssl genrsa -out server-key.pem 4096`{{execute}}
 
-Create the Certificate Signing Request (CSR)
+2b Create the Certificate Signing Request (CSR)
 `openssl req -subj "/CN=$HOST" -sha256 -new -key server-key.pem -out server.csr`{{execute}}
 
-
-Sign the public key with our CA
+3 Sign the public key with our CA
 ```
 export HOST=kali && export IP=127.0.1.1
 # IP address needs to be specified when creating the cert
@@ -41,13 +36,11 @@ chmod -v 0400 ca-key.pem server-key.pem
 chmod -v 0444 ca.pem server-cert.pem
 ```{{execute}}
 
-
 4 Update daemon to only accept authenticated connectiongs from clients providing a certificated trusted by the CA
 ```
 service docker stop
 dockerd --tlsverify --tlscacert=ca.pem --tlscert=server-cert.pem --tlskey=server-key.pem -H=0.0.0.0:2376
 ```{{execute}}
-
 
 5 Create Client Certificate
 ```
@@ -57,36 +50,30 @@ echo extendedKeyUsage = clientAuth > extfile-client.cnf
 openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
 ```{{execute}}
 
-6 Make a client call with the docker client
+6 See client call fail without certs
+` export HOST=127.0.1.1 && docker -v --tlsverify -H=$HOST:2376 version `{{execute}}
+
+7 Make a client call with the docker client with certs
+` export HOST=127.0.1.1 && docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute}}
+
+8 Another client call but now using environment vars instead cmd line args:
 ```
-export HOST=127.0.1.1
-docker -vvvvv --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version
+mkdir -pv ~/.docker
+cp -v {ca,cert,key}.pem ~/.docker
+export HOST=kali
+export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
+docker ps
 ```{{execute}}
 
-
-7 Make a client call with curl
+9 Client call with CURL
 `export HOST=127.0.1.1 && curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute}}
 ```{{execute}}
 
-7 See the client call fail if cert is not specified
+10 Finally see curl fail without cert
 `export HOST=127.0.1.1 && curl https://$HOST:2376/version | jq . `{{execute}}
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Other modes
+# Other modes
 
 If you don’t want to have complete two-way authentication, you can run Docker in various other modes by mixing the flags.
 Daemon modes
