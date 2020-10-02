@@ -1,6 +1,108 @@
-<img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
 
-## Docker Sockets
+### Protect the Docker daemon socket
 
-No content yet
+By default, Docker runs through a non-networked UNIX socket. It can also optionally communicate using an HTTP socket.  If you need Docker to be reachable through the network in a safe manner, you can enable TLS by specifying the tlsverify flag and pointing Docker’s tlscacert flag to a trusted CA certificate.
+    - In the daemon mode, it only allows connections from clients authenticated by a certificate signed by that CA.
+    - In the client mode, it only connects to servers with a certificate signed by that CA.
+
+### Advanced Topic
+Using TLS and managing a CA is an advanced topic. Please familiarize yourself with OpenSSL, x509, and TLS before using it in production.
+
+1: Create a CA, server and client keys with OpenSSL
+
+```
+mkdir -pv ~/.docker
+cp -v {ca,cert,key}.pem ~/.docker
+export HOST=kali
+export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
+docker ps
+```{{execute}}
+
+Generate Server private Key
+`openssl genrsa -out server-key.pem 4096`{{execute}}
+
+Create the Certificate Signing Request (CSR)
+`openssl req -subj "/CN=$HOST" -sha256 -new -key server-key.pem -out server.csr`{{execute}}
+
+
+Sign the public key with our CA
+```
+export HOST=kali && export IP=127.0.1.1
+# IP address needs to be specified when creating the cert
+# set the host and IP by the DNS of the Dockers daemon
+echo subjectAltName = DNS:$HOST, IP:$IP,IP:127.0.0.1 >> extfile.cnf
+# Set the Docker Daemon's key exented usage attributes to be used for server auth only
+echo extendedKeyUsage = serverAuth >> extfile.cnf
+# Generate the signed certificate by our CA
+openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem -extfile extfile.cnf
+# Private keys readonly
+chmod -v 0400 ca-key.pem server-key.pem
+# Certs worldwide, remove write access
+chmod -v 0444 ca.pem server-cert.pem
+```{{execute}}
+
+
+4 Update daemon to only accept authenticated connectiongs from clients providing a certificated trusted by the CA
+```
+service docker stop
+dockerd --tlsverify --tlscacert=ca.pem --tlscert=server-cert.pem --tlskey=server-key.pem -H=0.0.0.0:2376
+```{{execute}}
+
+
+5 Create Client Certificate
+```
+openssl genrsa -out key.pem 4096
+openssl req -subj '/CN=client' -new -key key.pem -out client.csr
+echo extendedKeyUsage = clientAuth > extfile-client.cnf
+openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
+```{{execute}}
+
+6 Make a client call with the docker client
+```
+export HOST=127.0.1.1
+docker -vvvvv --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version
+```{{execute}}
+
+
+7 Make a client call with curl
+`export HOST=127.0.1.1 && curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute}}
+```{{execute}}
+
+7 See the client call fail if cert is not specified
+`export HOST=127.0.1.1 && curl https://$HOST:2376/version | jq . `{{execute}}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Other modes
+
+If you don’t want to have complete two-way authentication, you can run Docker in various other modes by mixing the flags.
+Daemon modes
+
+    tlsverify, tlscacert, tlscert, tlskey set: Authenticate clients
+    tls, tlscert, tlskey: Do not authenticate clients
+
+Client modes
+
+    tls: Authenticate server based on public/default CA pool
+    tlsverify, tlscacert: Authenticate server based on given CA
+    tls, tlscert, tlskey: Authenticate with client certificate, do not authenticate server based on given CA
+    tlsverify, tlscacert, tlscert, tlskey: Authenticate with client certificate and authenticate server based on given CA
+
+If found, the client sends its client certificate, so you just need to drop your keys into ~/.docker/{ca,cert,key}.pem. Alternatively, if you want to store your keys in another location, you can specify that location using the environment variable DOCKER_CERT_PATH.
+
+$ export DOCKER_CERT_PATH=~/.docker/zone1/
+$ docker --tlsverify ps
 
