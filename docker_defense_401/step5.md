@@ -8,14 +8,14 @@ By default, Docker runs through a non-networked UNIX socket. It can also optiona
 ### Advanced Topic: Create a CA, server and client keys with OpenSSL
 Using TLS and managing a CA is an advanced topic. Please familiarize yourself with OpenSSL, x509, and TLS before using it in production.
 
-1a Generate the CA's private & public keys on the Docker Daemon's host machine
+1 Generate the CA's private & public keys on the Docker Daemon's host machine
 
 For simplicity we are are passing in the pass phrase throught the commandline. This should be avoided in non demo environments
 
-`export HOST=401_docker_host && export IP=127.0.1.1 && openssl genrsa -aes256 -passout pass:VERY_UNSECURE_PASSWORD_123 -out ca-key.pem 4096`{{execute}}
-
-1b Generate public key
-`openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -passout pass:VERY_UNSECURE_PASSWORD_123 -out ca.pem`{{execute}}
+1 Generate public key
+`export HOST=401_docker_host && export IP=127.0.1.1 && openssl req \
+-subj "/C=US/ST=NRW/L=SanFrancisco/O=401_Inc/OU=DevOps/CN=my.401example.com/emailAddress=401@my_containersecurity.com" \
+-new -x509 -days 365 -keyout ca-key.pem -sha256 -passout pass:VERY_UNSECURE_PASSWORD_123 -out ca.pem`{{execute}}
 
 2a Generate Server private Key
 `openssl genrsa -out server-key.pem 4096`{{execute}}
@@ -100,3 +100,6 @@ If found, the client sends its client certificate, so you just need to drop your
 $ export DOCKER_CERT_PATH=~/.docker/zone1/
 $ docker --tlsverify ps
 ```
+
+
+1a `export HOST=401_docker_host && export IP=127.0.1.1 && openssl genrsa -aes256 -passout pass:VERY_UNSECURE_PASSWORD_123 -out ca-key.pem 4096`{{execute}}
