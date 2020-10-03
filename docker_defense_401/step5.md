@@ -9,7 +9,10 @@ By default, Docker runs through a non-networked UNIX socket. It can also optiona
 Using TLS and managing a CA is an advanced topic. Please familiarize yourself with OpenSSL, x509, and TLS before using it in production.
 
 1a Generate the CA's private & public keys on the Docker Daemon's host machine
-`export HOST=401_docker_host && export IP=127.0.1.1 && openssl genrsa -aes256 -out ca-key.pem 4096`{{execute}}
+
+For simplicity we are are passing in the pass phrase throught the commandline. This should be avoided in non demo environments
+
+`export HOST=401_docker_host && export IP=127.0.1.1 && openssl genrsa -aes256 -passout pass:VERY_UNSAFE_PASSWORD -out ca-key.pem 4096`{{execute}}
 
 1b Generate public key
 `openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem`{{execute}}
