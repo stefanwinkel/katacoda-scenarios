@@ -54,6 +54,13 @@
     "uilayout": "terminal",
     "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\r\n"
   },
+
+  "terminals": [
+      {"name": "Terminal 2", "target": "host01"}
+    ]    
+    },
+
+
   "backend": {
     "imageid": "ubuntu:2004"
   }

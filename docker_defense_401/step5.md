@@ -36,6 +36,8 @@ chmod -v 0444 ca.pem server-cert.pem
 ```{{execute}}
 
 4 Update daemon to only accept authenticated connectiongs from clients providing a certificated trusted by the CA
+
+We will run these commmands in a second window
 ```
 service docker stop
 dockerd --tlsverify --tlscacert=ca.pem --tlscert=server-cert.pem --tlskey=server-key.pem -H=0.0.0.0:2376
@@ -49,8 +51,12 @@ echo extendedKeyUsage = clientAuth > extfile-client.cnf
 openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
 ```{{execute}}
 
+## Now, unauthenticated connections are no longer accepted.
+
 6 See client call fail without certs
 ` docker -v --tlsverify -H=$HOST:2376 version `{{execute}}
+
+In the docker daemon’s host, the logs show the connection attempt, specifying that the client did not provide a valid TLS certificate
 
 7 Make a client call with the docker client with certs
 ` docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute}}
@@ -69,7 +75,6 @@ docker ps
 
 10 Finally see curl fail without cert
 `curl https://$HOST:2376/version | jq . `{{execute}}
-```
 
 # Other modes
 
