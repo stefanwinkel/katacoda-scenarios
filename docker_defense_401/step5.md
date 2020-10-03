@@ -9,7 +9,7 @@ By default, Docker runs through a non-networked UNIX socket. It can also optiona
 Using TLS and managing a CA is an advanced topic. Please familiarize yourself with OpenSSL, x509, and TLS before using it in production.
 
 1a Generate the CA's private & public keys on the Docker Daemon's host machine
-`openssl genrsa -aes256 -out ca-key.pem 4096`{{execute}}
+`export HOST=401_docker_host && export IP=127.0.1.1 && openssl genrsa -aes256 -out ca-key.pem 4096`{{execute}}
 
 1b Generate public key
 `openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem`{{execute}}
@@ -22,7 +22,6 @@ Using TLS and managing a CA is an advanced topic. Please familiarize yourself wi
 
 3 Sign the public key with our CA
 ```
-export HOST=kali && export IP=127.0.1.1
 # IP address needs to be specified when creating the cert
 # set the host and IP by the DNS of the Dockers daemon
 echo subjectAltName = DNS:$HOST, IP:$IP,IP:127.0.0.1 >> extfile.cnf
@@ -51,26 +50,25 @@ openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem 
 ```{{execute}}
 
 6 See client call fail without certs
-` export HOST=127.0.1.1 && docker -v --tlsverify -H=$HOST:2376 version `{{execute}}
+` docker -v --tlsverify -H=$HOST:2376 version `{{execute}}
 
 7 Make a client call with the docker client with certs
-` export HOST=127.0.1.1 && docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute}}
+` docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute}}
 
 8 Another client call but now using environment vars instead cmd line args:
 ```
 mkdir -pv ~/.docker
 cp -v {ca,cert,key}.pem ~/.docker
-export HOST=kali
 export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
 docker ps
 ```{{execute}}
 
 9 Client call with CURL
-`export HOST=127.0.1.1 && curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute}}
+`curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute}}
 ```{{execute}}
 
 10 Finally see curl fail without cert
-`export HOST=127.0.1.1 && curl https://$HOST:2376/version | jq . `{{execute}}
+`curl https://$HOST:2376/version | jq . `{{execute}}
 ```
 
 # Other modes
@@ -90,6 +88,7 @@ Client modes
 
 If found, the client sends its client certificate, so you just need to drop your keys into ~/.docker/{ca,cert,key}.pem. Alternatively, if you want to store your keys in another location, you can specify that location using the environment variable DOCKER_CERT_PATH.
 
+```sh
 $ export DOCKER_CERT_PATH=~/.docker/zone1/
 $ docker --tlsverify ps
-
+```
