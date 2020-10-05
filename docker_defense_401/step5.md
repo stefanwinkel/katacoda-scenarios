@@ -32,13 +32,18 @@ echo subjectAltName = DNS:$HOST, IP:$IP,IP:127.0.0.1 >> extfile.cnf
 echo extendedKeyUsage = serverAuth >> extfile.cnf
 # Generate the signed certificate by our CA
 openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem -extfile extfile.cnf
+```{{execute}}
+
+4. Protect the private keys and certs
+```
 # Private keys readonly
 chmod -v 0400 ca-key.pem server-key.pem
 # Certs worldwide, remove write access
 chmod -v 0444 ca.pem server-cert.pem
 ```{{execute}}
 
-4 Update daemon to only accept authenticated connectiongs from clients providing a certificated trusted by the CA
+
+5 Update daemon to only accept authenticated connectiongs from clients providing a certificated trusted by the CA
 
 We will run these commmands in a second window
 ```
@@ -46,7 +51,7 @@ service docker stop
 dockerd --tlsverify --tlscacert=ca.pem --tlscert=server-cert.pem --tlskey=server-key.pem -H=0.0.0.0:2376
 ```{{execute}}
 
-5 Create Client Certificate
+6 Create Client Certificate
 ```
 openssl genrsa -out key.pem 4096
 openssl req -subj '/CN=client' -new -key key.pem -out client.csr
@@ -56,15 +61,15 @@ openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem 
 
 ## Now, unauthenticated connections are no longer accepted.
 
-6 See client call fail without certs
+7 See client call fail without certs
 ` docker -v --tlsverify -H=$HOST:2376 version `{{execute}}
 
 In the docker daemon’s host, the logs show the connection attempt, specifying that the client did not provide a valid TLS certificate
 
-7 Make a client call with the docker client with certs
+8 Make a client call with the docker client with certs
 ` docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute}}
 
-8 Another client call but now using environment vars instead cmd line args:
+9 Another client call but now using environment vars instead cmd line args:
 ```
 mkdir -pv ~/.docker
 cp -v {ca,cert,key}.pem ~/.docker
@@ -72,11 +77,11 @@ export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
 docker ps
 ```{{execute}}
 
-9 Client call with CURL
+10 Client call with CURL
 `curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute}}
 ```{{execute}}
 
-10 Finally see curl fail without cert
+11 Finally see curl fail without cert
 `curl https://$HOST:2376/version | jq . `{{execute}}
 
 # Other modes
