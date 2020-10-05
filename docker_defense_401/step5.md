@@ -15,7 +15,7 @@ For simplicity we are are passing in the pass phrase throught the commandline. T
 1 Generate public key
 `export HOST=401_docker_host && export IP=127.0.1.1 && openssl req \
 -subj "/C=US/ST=NRW/L=SanFrancisco/O=401_Inc/OU=DevOps/CN=my.401example.com/emailAddress=401@my_containersecurity.com" \
--new -x509 -days 365 -keyout ca-key.pem -sha256 -passout pass:VERY_UNSECURE_PASSWORD_123 -out ca.pem`{{execute}}
+-new -x509 -days 365 -keyout ca-key.pem -sha256 -passout pass:INSECURE_PASS_123 -out ca.pem`{{execute}}
 
 2a Generate Server private Key
 `openssl genrsa -out server-key.pem 4096`{{execute}}
@@ -23,7 +23,10 @@ For simplicity we are are passing in the pass phrase throught the commandline. T
 2b Create the Certificate Signing Request (CSR)
 `openssl req -subj "/CN=$HOST" -sha256 -new -key server-key.pem -out server.csr`{{execute}}
 
-3 Sign the public key with our CA
+3 Sign the public key with our CA.
+
+When asked for a password type: UNSECURE_PASS_123
+
 ```
 # IP address needs to be specified when creating the cert
 # set the host and IP by the DNS of the Dockers daemon
@@ -107,4 +110,4 @@ $ docker --tlsverify ps
 ```
 
 
-1a `export HOST=401_docker_host && export IP=127.0.1.1 && openssl genrsa -aes256 -passout pass:VERY_UNSECURE_PASSWORD_123 -out ca-key.pem 4096`{{execute}}
+1a `export HOST=401_docker_host && export IP=127.0.1.1 && openssl genrsa -aes256 -passout pass:INSECURE_PASS_123 -out ca-key.pem 4096`{{execute}}
