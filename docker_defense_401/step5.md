@@ -1,9 +1,9 @@
 
 ### Protect the Docker daemon socket
 
-By default, Docker runs through a non-networked UNIX socket. It can also optionally communicate using an HTTP socket, often used by orchestration engines.  If you need Docker to be reachable through the network in a safe manner, you can enable TLS by specifying the tlsverify flag and pointing Docker’s tlscacert flag to a trusted CA certificate.
+By default, Docker runs through a non-networked UNIX socket. It can also optionally communicate using an TCP socket, often used by orchestration engines.  If you need Docker to be reachable through the network in a safe manner, you can enable TLS by specifying the tlsverify flag and pointing Docker’s tlscacert flag to a trusted CA certificate.
 
-We will now show how to setup the runtime to use 2 2ay authenication and enforcing the principle of least privilege by restricting access to the daemon and encrypting the communication protocols
+We will now show how to setup the runtime to use 2 way authenication and enforcing the principle of least privilege by restricting access to the daemon and encrypting the communication protocol
 
 ### Advanced Topic: Create a CA, server and client keys with OpenSSL
 Using TLS and managing a CA is an advanced topic. Please familiarize yourself with OpenSSL, x509, and TLS before using it in production. We will now setup the runtime to use 2
@@ -71,17 +71,17 @@ openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem 
 Keep an eye on Terminal 2, the docker daemon’s host, which shows the logs of the connection attempt
 
 7 See Docker client call failing without the certificate
-` export HOST=127.0.0.1 && docker -v -H=$HOST:2376 ps `{{execute T3}}
+` export HOST=127.0.0.1 && docker -v -H=$HOST:2376 images `{{execute T3}}
 
 8 Now perform the same call with the certs
-` export HOST=127.0.0.1 && docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 ps `{{execute T3}}
+` export HOST=127.0.0.1 && docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 images `{{execute T3}}
 
 9 Another client call but now using environment vars instead cmd line args:
 ```
 mkdir -pv ~/.docker
 cp -v {ca,cert,key}.pem ~/.docker
 export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
-docker ps
+docker images
 ```{{execute T3}}
 
 10 Using curl, we see our command failing without the cert
@@ -113,6 +113,8 @@ Client modes:
 If found, the client sends its client certificate, so you just need to drop your keys into ~/.docker/{ca,cert,key}.pem. Alternatively, if you want to store your keys in another location, you can specify that location using the environment variable DOCKER_CERT_PATH.
 
 ```sh
-$ export DOCKER_CERT_PATH=~/.docker/zone1/
-$ docker --tlsverify ps
-```
+mkdir -p ~/.docker/zone1
+cp -v {ca,cert,key}.pem ~/.docker/zone1
+export DOCKER_CERT_PATH=~/.docker/zone1/
+docker --tlsverify images
+```{{execute T3}}
