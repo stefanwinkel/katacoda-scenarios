@@ -54,9 +54,6 @@
     "uilayout": "terminal",
     "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\u001b[m\r\n",
   "terminals": [
-      {"name": "2 Terminal", "target": "host01"},
-      {"name": "3 Server", "target": "host01"},
-      {"name": "4 Client", "target": "host01"}
     ]
     },
 

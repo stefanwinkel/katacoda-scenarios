@@ -12,6 +12,8 @@ Using TLS and managing a CA is an advanced topic. Please familiarize yourself wi
 
 For simplicity we are are passing in the pass phrase throught the commandline. This should be avoided in non demo environments
 
+`echo "Run in Terminal 3"`{{execute T3}}
+
 1 Generate public key
 `export HOST=401_docker_host && export IP=127.0.1.1 && openssl req \
 -subj "/C=US/ST=NRW/L=SanFrancisco/O=401_Inc/OU=DevOps/CN=my.401example.com/emailAddress=401@my_containersecurity.com" \
