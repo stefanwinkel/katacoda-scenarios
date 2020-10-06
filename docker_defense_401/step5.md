@@ -48,11 +48,11 @@ chmod -v 0444 ca.pem server-cert.pem
 
 5 Update daemon to only accept authenticated connectiongs from clients providing a certificated trusted by the CA
 
-We will run these commmands in the second terminal
+We will run these commmands in our Server terminal
 ```
 service docker stop
 dockerd --tlsverify --tlscacert=ca.pem --tlscert=server-cert.pem --tlskey=server-key.pem -H=0.0.0.0:2376
-```{{execute TS2}}
+```{{execute Server}}
 
 Now that our Docker daemon has been restarted with the Certificate Authority cert, we run the following commands in our CLIENT terminal:
 
@@ -62,7 +62,7 @@ openssl genrsa -out key.pem 4096
 openssl req -subj '/CN=client' -new -key key.pem -out client.csr
 echo extendedKeyUsage = clientAuth > extfile-client.cnf
 openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
-```{{execute TS3}}
+```{{execute Client}}
 
 ## Now, unauthenticated connections are no longer accepted.
 
