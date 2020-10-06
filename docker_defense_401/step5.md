@@ -52,7 +52,7 @@ We will run these commmands in our Server terminal
 ```
 service docker stop
 dockerd --tlsverify --tlscacert=ca.pem --tlscert=server-cert.pem --tlskey=server-key.pem -H=0.0.0.0:2376
-```{{execute 2 Server}}
+```{{execute Server}}
 
 Now that our Docker daemon has been restarted with the Certificate Authority cert, we run the following commands in our CLIENT terminal:
 
@@ -62,12 +62,12 @@ openssl genrsa -out key.pem 4096
 openssl req -subj '/CN=client' -new -key key.pem -out client.csr
 echo extendedKeyUsage = clientAuth > extfile-client.cnf
 openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
-```{{execute 3 Client}}
+```{{execute Client}}
 
 ## Now, unauthenticated connections are no longer accepted.
 
 7 See client call fail without certs
-` docker -v --tlsverify -H=$HOST:2376 version `{{execute TS3}}
+` docker -v --tlsverify -H=$HOST:2376 version `{{execute Client}}
 
 In the docker daemon’s host, the logs show the connection attempt, specifying that the client did not provide a valid TLS certificate
 
@@ -80,7 +80,7 @@ mkdir -pv ~/.docker
 cp -v {ca,cert,key}.pem ~/.docker
 export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
 docker ps
-```{{execute TS3}}
+```{{execute Client}}
 
 10 Client call with CURL
 `curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute TS3}}
