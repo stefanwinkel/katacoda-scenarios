@@ -119,7 +119,10 @@ If found, the client sends its client certificate, so you just need to drop your
 mkdir -p ~/.docker/zone1
 cp -v {ca,cert,key}.pem ~/.docker/zone1
 export DOCKER_CERT_PATH=~/.docker/zone1/
+# Delete the old certs
+rm ~/.docker/*.cert
 # Run the CLI from another location verifying cert to be picked up from zone1 dir
-mkdir -p ~/zonetest && cd ~/zonetest
+mkdir -p ~/zonetest
+cd ~/zonetest
 docker --tlsverify images
 ```{{execute T3}}
