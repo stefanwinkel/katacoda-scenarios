@@ -68,13 +68,13 @@ openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem 
 
 ## Verify that now only signed requests are allowed
 
-7 See Docker client call failing without the certificate
-` export HOST=127.0.0.1 && docker -v -H=HOST:2376 ps `{{execute T3}}
+Keep an eye on Terminal 2, the docker daemon’s host, which shows the logs of the connection attempt
 
-In the docker daemon’s host, the logs show the connection attempt, specifying that the client did not provide a valid TLS certificate
+7 See Docker client call failing without the certificate
+` export HOST=127.0.0.1 && docker -v -H=$HOST:2376 ps `{{execute T3}}
 
 8 Now perform the same call with the certs
-` export HOST=127.0.0.1 && docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute T3}}
+` export HOST=127.0.0.1 && docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 ps `{{execute T3}}
 
 9 Another client call but now using environment vars instead cmd line args:
 ```
@@ -90,7 +90,11 @@ docker ps
 11 Finally see curl fail without cert
 `export HOST=127.0.0.1 && curl https://$HOST:2376/version | jq . `{{execute T3}}
 
-# Other modes
+# Bonus
+
+### Other modes
+
+There are various other modes of operation, listed below. You are encouraged to explore the different modes of operation.
 
 In the daemon mode, it only allows connections from clients authenticated by a certificate signed by that CA.
 In the client mode, it only connects to servers with a certificate signed by that CA.
