@@ -116,11 +116,11 @@ Client modes:
 If found, the client sends its client certificate, so you just need to drop your keys into ~/.docker/{ca,cert,key}.pem. Alternatively, if you want to store your keys in another location, you can specify that location using the environment variable DOCKER_CERT_PATH.
 
 ```sh
+# Delete the old credentials
+rm -f ~/.docker/*
 mkdir -p ~/.docker/zone1
 cp -v {ca,cert,key}.pem ~/.docker/zone1
 export DOCKER_CERT_PATH=~/.docker/zone1/
-# Delete the old certs
-rm ~/.docker/*.cert
 # Run the CLI from another location verifying cert to be picked up from zone1 dir
 mkdir -p ~/zonetest
 cd ~/zonetest
