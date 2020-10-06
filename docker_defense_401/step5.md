@@ -72,7 +72,7 @@ openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem 
 In the docker daemon’s host, the logs show the connection attempt, specifying that the client did not provide a valid TLS certificate
 
 8 Make a client call with the docker client with certs
-` docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute TS3}}
+` docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute 3 Client}}
 
 9 Another client call but now using environment vars instead cmd line args:
 ```
@@ -83,7 +83,7 @@ docker ps
 ```{{execute Client}}
 
 10 Client call with CURL
-`curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute TS3}}
+`curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute 3 Client}}
 
 11 Finally see curl fail without cert
 `curl https://$HOST:2376/version | jq . `{{execute TS3}}
