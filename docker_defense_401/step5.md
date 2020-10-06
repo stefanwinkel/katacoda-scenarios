@@ -84,28 +84,26 @@ export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
 docker ps
 ```{{execute T3}}
 
-10 Client call with CURL
-`curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute T3}}
-
-11 Finally see curl fail without cert
+10 Using curl, we see our command failing without the cert
 `export HOST=127.0.0.1 && curl https://$HOST:2376/version | jq . `{{execute T3}}
 
-# Bonus
+11 Finally we see the curl command succeeding with the certs in place
+`export HOST=127.0.0.1 && curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute T3}}
 
-### Other modes
-
-There are various other modes of operation, listed below. You are encouraged to explore the different modes of operation.
+# Bonus - Other Modes
 
 In the daemon mode, it only allows connections from clients authenticated by a certificate signed by that CA.
 In the client mode, it only connects to servers with a certificate signed by that CA.
 
 If you don’t want to have complete two-way authentication, you can run Docker in various other modes by mixing the flags.
-Daemon modes
+You are encouraged to explore the different modes of operation.
+
+Daemon modes:
 
     tlsverify, tlscacert, tlscert, tlskey set: Authenticate clients
     tls, tlscert, tlskey: Do not authenticate clients
 
-Client modes
+Client modes:
 
     tls: Authenticate server based on public/default CA pool
     tlsverify, tlscacert: Authenticate server based on given CA
