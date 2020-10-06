@@ -71,6 +71,9 @@ openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem 
 Keep an eye on Terminal 2, the docker daemon’s host, which shows the logs of the connection attempt
 
 7 See Docker client call failing without the certificate
+
+We will now try to obtain the Container images from the server by calling the docker images client call
+
 ` export HOST=127.0.0.1 && docker -v -H=$HOST:2376 images `{{execute T3}}
 
 8 Now perform the same call with the certs
@@ -84,7 +87,7 @@ export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
 docker images
 ```{{execute T3}}
 
-10 Using curl, we see our command failing without the cert
+10 Using curl, we now try to obtain the version info from the server and see the command failing without the cert
 `export HOST=127.0.0.1 && curl https://$HOST:2376/version | jq . `{{execute T3}}
 
 11 Finally we see the curl command succeeding with the certs in place
@@ -116,5 +119,7 @@ If found, the client sends its client certificate, so you just need to drop your
 mkdir -p ~/.docker/zone1
 cp -v {ca,cert,key}.pem ~/.docker/zone1
 export DOCKER_CERT_PATH=~/.docker/zone1/
+# Run the CLI from another location verifying cert to be picked up from zone1 dir
+mkdir -p ~/zonetest && cd ~/zonetest
 docker --tlsverify images
 ```{{execute T3}}
