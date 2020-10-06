@@ -1,16 +1,16 @@
 
 ### Protect the Docker daemon socket
 
-By default, Docker runs through a non-networked UNIX socket. It can also optionally communicate using an HTTP socket.  If you need Docker to be reachable through the network in a safe manner, you can enable TLS by specifying the tlsverify flag and pointing Docker’s tlscacert flag to a trusted CA certificate.
-    - In the daemon mode, it only allows connections from clients authenticated by a certificate signed by that CA.
-    - In the client mode, it only connects to servers with a certificate signed by that CA.
+By default, Docker runs through a non-networked UNIX socket. It can also optionally communicate using an HTTP socket, often used by orchestration engines.  If you need Docker to be reachable through the network in a safe manner, you can enable TLS by specifying the tlsverify flag and pointing Docker’s tlscacert flag to a trusted CA certificate.
+
+We will now show how to setup the runtime to use 2 2ay authenication and enforcing the principle of least privilege by restricting access to the daemon and encrypting the communication protocols
 
 ### Advanced Topic: Create a CA, server and client keys with OpenSSL
-Using TLS and managing a CA is an advanced topic. Please familiarize yourself with OpenSSL, x509, and TLS before using it in production.
+Using TLS and managing a CA is an advanced topic. Please familiarize yourself with OpenSSL, x509, and TLS before using it in production. We will now setup the runtime to use 2
 
 1 Generate the CA's private & public keys on the Docker Daemon's host machine
 
-For simplicity we are are passing in the pass phrase throught the commandline. This should be avoided in non demo environments
+For simplicity we are are entering the CA passphrase 'INSECURE_PASS_123' through the commandline. Passing in sensitive information through the commandline should be avoided and replaced by a more secure method like using a key vault or environment variable in non demo environments
 
 1 Generate public key
 `export HOST=401_docker_host && export IP=127.0.1.1 && openssl req \
@@ -25,7 +25,7 @@ For simplicity we are are passing in the pass phrase throught the commandline. T
 
 3 Sign the public key with our CA.
 
-When asked for a passphrase, enter: : INSECURE_PASS_123
+When asked for the CA passphrase, enter: INSECURE_PASS_123
 
 ```
 # IP address needs to be specified when creating the cert
@@ -46,17 +46,19 @@ chmod -v 0444 ca.pem server-cert.pem
 ```{{execute}}
 
 
-5 Update daemon to only accept authenticated connectiongs from clients providing a certificated trusted by the CA
+5 Update Docker daemon to only accept authenticated connections from clients providing a certificate trusted by the CA
 
-We will run these commmands in a new Terminal window, our Server terminal
+We will run restart the daemon and tell it to use our CA cert in a new Terminal window:
 ```
 service docker stop
 dockerd --tlsverify --tlscacert=ca.pem --tlscert=server-cert.pem --tlskey=server-key.pem -H=0.0.0.0:2376
 ```{{execute T2}}
 
-Now that our Docker daemon has been restarted with the Certificate Authority cert, we run the following commands in our CLIENT terminal:
+Lets now create our client cert in a new terminal, sign it with the CA key:
 
 6 Create Client Certificate
+
+When asked for the CA passphrase, enter the same CA passphrase again: INSECURE_PASS_123
 ```
 openssl genrsa -out key.pem 4096
 openssl req -subj '/CN=client' -new -key key.pem -out client.csr
@@ -64,15 +66,15 @@ echo extendedKeyUsage = clientAuth > extfile-client.cnf
 openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
 ```{{execute T3}}
 
-## Now, unauthenticated connections are no longer accepted.
+## Verify that now only signed requests are allowed
 
-7 See client call fail without certs
-` docker -v --tlsverify -H=$HOST:2376 version `{{execute T3}}
+7 See Docker client call failing without the certificate
+` export HOST=127.0.0.1 && docker -v -H=HOST:2376 ps `{{execute T3}}
 
 In the docker daemon’s host, the logs show the connection attempt, specifying that the client did not provide a valid TLS certificate
 
-8 Make a client call with the docker client with certs
-` docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute T3}}
+8 Now perform the same call with the certs
+` export HOST=127.0.0.1 && docker -v --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version `{{execute T3}}
 
 9 Another client call but now using environment vars instead cmd line args:
 ```
@@ -86,9 +88,12 @@ docker ps
 `curl https://$HOST:2376/version --cert ~/.docker/cert.pem --key ~/.docker/key.pem --cacert ~/.docker/ca.pem | jq .`{{execute T3}}
 
 11 Finally see curl fail without cert
-`curl https://$HOST:2376/version | jq . `{{execute T3}}
+`export HOST=127.0.0.1 && curl https://$HOST:2376/version | jq . `{{execute T3}}
 
 # Other modes
+
+In the daemon mode, it only allows connections from clients authenticated by a certificate signed by that CA.
+In the client mode, it only connects to servers with a certificate signed by that CA.
 
 If you don’t want to have complete two-way authentication, you can run Docker in various other modes by mixing the flags.
 Daemon modes
@@ -109,6 +114,3 @@ If found, the client sends its client certificate, so you just need to drop your
 $ export DOCKER_CERT_PATH=~/.docker/zone1/
 $ docker --tlsverify ps
 ```
-
-
-1a `export HOST=401_docker_host && export IP=127.0.1.1 && openssl genrsa -aes256 -passout pass:INSECURE_PASS_123 -out ca-key.pem 4096`{{execute}}
