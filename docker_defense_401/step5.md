@@ -13,8 +13,8 @@ Using TLS and managing a CA is somewhat an advanced topic. Please familiarize yo
 
 For simplicity we are are entering the CA passphrase 'INSECURE_PASS_123' through the commandline. Passing in sensitive information through the commandline should be avoided and replaced by a more secure method like using a key vault or environment variable in a non demo environment
 
-`export HOST=401_docker_host && export IP=127.0.1.1 && openssl req \
--subj "/C=US/ST=NRW/L=SanFrancisco/O=401_Inc/OU=DevOps/CN=my.401example.com/emailAddress=401@my_containersecurity.com" \
+`export HOST=517_docker_host && export IP=127.0.1.1 && openssl req \
+-subj "/C=US/ST=NRW/L=SanFrancisco/O=517_Inc/OU=DevOps/CN=my.517example.com/emailAddress=517@my_containersecurity.com" \
 -new -x509 -days 365 -keyout ca-key.pem -sha256 -passout pass:INSECURE_PASS_123 -out ca.pem`{{execute}}
 
 2. Generate Server private Key

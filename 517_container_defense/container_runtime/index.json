@@ -1,46 +1,65 @@
 {
-  "title": "Protect the Docker Runtime",
-  "description": "Learn the 10 Do's and Don'ts on how to protect the  Docker Runtime with hands-on explanations",
-  "difficulty": "Beginner",
-  "time": "30",
+  "title": "517.2 Protecting the Docker Runtime ",
+  "description": "Learn the Do's and Dont's on how to protect the Docker Runtime with hands-on explanations",
+  "difficulty": "beginner",
+  "time": "20 minutes",
   "details": {
     "steps": [
-      {
-        "title": "Step 1",
-        "text": "step1.md"
-      },
-      {
-        "title": "Step 2",
-        "text": "step2.md"
-      },
-      {
-        "title": "Step 3",
-        "text": "step3.md"
-      },
-      {
-        "title": "Step 4",
-        "text": "step4.md"
-      },
-      {
-        "title": "Step 5",
+
+    {
+      "title": "Step 1 - Limit Container Memory - Protect against DoS",
+      "text": "step1.md"
+    },
+    {
+        "title":"Step 2 - Assign CPU slice - Avoid Slow performance",
+        "text": "step2.md",
+        "code": "clear.sh"
+    },
+    {
+        "title":"Step 3 - Remap UserIDs with User/Network NameSpace - Run Nmap as Root",
+        "text": "step3.md",
+        "code": "clear.sh"
+    },
+    {
+        "title":"Step 4 - Whitelist Kernel Capabilities/Syscalls",
+        "text": "step4.md",
+        "code": "clear.sh"
+    },
+    {
+        "title":"Step 5 Docker Sockets ",
         "text": "step5.md"
-      },
-      {
-        "title": "Step 6",
-        "text": "step6.md"
-      }
+    },
+    {
+        "title":"Assessment",
+        "text": "quiz.md"
+    }
+
     ],
     "intro": {
-      "text": "intro.md"
+      "text": "intro.md",
+      "credits": ""
     },
     "finish": {
       "text": "finish.md"
-    }
+    },
+
+    "assets":  {
+            "host01": [
+                {"file": "scripts/*.sh", "target": "/usr/local/bin/", "chmod": "+x"},
+                {"file": "dockerfiles/*Dockerfile", "target": "/usr/local/bin/", "chmod": "-x"}
+                    ]
+               }
   },
   "environment": {
-    "uilayout": "terminal"
-  },
+    "uilayout": "terminal",
+    "uimessage1": "\u001b[32mYour Interactive Bash Terminal.\u001b[m\r\n",
+  "terminals": [
+    ]
+    },
+
+
   "backend": {
-    "imageid": "ubuntu1904"
+    "imageid": "ubuntu:2004"
   }
+
 }

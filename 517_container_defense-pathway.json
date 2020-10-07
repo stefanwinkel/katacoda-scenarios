@@ -1,17 +1,18 @@
 {
   "title": "517 Container Security Defense",
-  "description": "Learn how to defend your Docker Containers",
+  "description": "Learn how to secure your Docker Containers",
   "courses": [
-    {
-      "course_id": "container_runtime",
-      "title": "Protect the Docker Runtime",
-      "description": "Learn the 10 Do's and Don'ts on how to protect the  Docker Runtime with hands-on explanations"
-    },
     {
       "course_id": "intro_container_defense",
       "title": "Introduction to Docker Container Defense",
       "description": "Learn the basis of defending Docker Containers with hands-on explanations"
     },
+    {
+      "course_id": "container_runtime",
+      "title": "Protect the Docker Runtime",
+      "description": "Learn the 10 Do's and Don'ts on how to protect the  Docker Runtime with hands-on explanations"
+    },
+
     {
       "course_id": "container_images_build",
       "title": "Buiding Secure Container Images",
