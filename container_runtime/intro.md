@@ -1,4 +1,4 @@
-<img align="right" src="./assets/docker_defense_pic_v2.jpg" width="300">
+<img align="right" src="./assets/docker_defense_pic_v0.jpg" width="300">
 
 In many instances Docker containers are running with permissions set too wide/open. Users sometimes think that because they are running things within a container or throwing the container quickly away they are safe from attackers. These incorrect assumptions lead to fairly easy exploitation through attacks like Priv Escalation, DoS and resource exhaustion for example often seen with crypocurrency (e.g Bitcoin) mining attacks.
 

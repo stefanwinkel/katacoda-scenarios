@@ -2,7 +2,7 @@
 
 In many instances Docker containers are running with permissions set too wide, allowing for fairly easy exploitation through for Priv Escalation, DoS and resource exhaustion attacks often seen with CrypoCurrency attacks. To constrain and limit use of host resources, users can customize the Docker runtime by use of Cgroups and Namespaces Linux kernel features
 
-## 517.2 Container Defense - Docker Runtime Protection Quiz
+## 517 Container Defense - Docker Runtime Protection Quiz
 
 What is command flag to limit the amount of memory a container can use to  150 ?
 

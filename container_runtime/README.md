@@ -1,4 +1,4 @@
-# Katacoda 517.2 Container Security Defense - Runtime
+# Katacoda 517 Container Security Defense - Runtime
 
 Learn the Do's and Dont's on how to protect the Docker Runtime with hands-on explanations
 
