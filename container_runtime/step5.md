@@ -1,3 +1,4 @@
+<img align="right" src="./assets/docker_defense_pic_v0.jpg" width="300">
 
 ### Protect the Docker daemon socket
 

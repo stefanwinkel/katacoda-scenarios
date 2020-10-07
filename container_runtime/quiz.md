@@ -1,3 +1,5 @@
+<img align="right" src="./assets/docker_defense_pic_v0.jpg" width="300">
+
 In many instances Docker containers are running with permissions set too wide, allowing for fairly easy exploitation through for Priv Escalation, DoS and resource exhaustion attacks often seen with CrypoCurrency attacks. To constrain and limit use of host resources, users can customize the Docker runtime by use of Cgroups and Namespaces Linux kernel features
 
 ## 517.2 Container Defense - Docker Runtime Protection Quiz

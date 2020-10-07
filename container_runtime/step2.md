@@ -1,5 +1,5 @@
-<img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
 
+<img align="right" src="./assets/docker_defense_pic_v0.jpg" width="300">
 Processing time is just as scarce as memory, but the effect of starvation is performance degradation instead of failure. A paused process that is waiting for time on the CPU is still working correctly. But a slow process may be worse than a failing one if it’s running an important latency-sensitive data-processing program, a revenue-generating web application, or a backend service for your app. Docker lets you limit a container’s CPU resources in two ways.
 
 ### Attack use case

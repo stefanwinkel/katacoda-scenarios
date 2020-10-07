@@ -1,4 +1,4 @@
-
+<img align="right" src="./assets/docker_defense_pic_v2.jpg" width="300">
 ### Protect the Docker daemon socket
 
 By default, Docker runs through a non-networked UNIX socket. It can also optionally communicate using an TCP socket, often used by orchestration engines.  If you need Docker to be reachable through the network in a safe manner, you can enable TLS by specifying the tlsverify flag and pointing Docker’s tlscacert flag to a trusted CA certificate.

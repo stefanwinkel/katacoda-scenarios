@@ -1,4 +1,4 @@
-<img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
+<img align="right" src="./assets/docker_defense_pic_v0.jpg" width="300">
 
 ### Remapping Users with the USER id Namespace (Don't: #4)
 

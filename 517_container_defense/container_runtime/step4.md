@@ -1,3 +1,4 @@
+<img align="right" src="./assets/docker_defense_pic_v2.jpg" width="300">
 
 Docker drops a few of the capabilities for the containers process, but still too many capabilities and system calls are possible without restrictions.
 [Here](https://github.com/moby/moby/blob/master/oci/caps/defaults.go) are the default kernel capabilities for a Docker container

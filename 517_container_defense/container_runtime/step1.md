@@ -1,4 +1,4 @@
-<img align="right" src="./assets/docker_defense_pic_v1.jpg" width="300">
+<img align="right" src="./assets/docker_defense_pic_v2.jpg" width="300">
 
 
 Memory limits are one of the most basic restriction you can place on a container. They restrict the amount of memory that processes inside a container  can use. Control Groups a Linux kernel feature that controls how much resources (CPU, memory, filesystem, network, etc) a process can use.
